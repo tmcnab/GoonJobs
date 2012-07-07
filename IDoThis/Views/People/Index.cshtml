@@ -1,0 +1,31 @@
+﻿@model dynamic
+@using IDoThis.Helpers
+@{
+    ViewBag.Title = "People";
+    if (!string.IsNullOrWhiteSpace(Request.QueryString["q"]))
+    {
+        ViewBag.Title = "Search Results for '" + Request.QueryString["q"] + "'";
+    }
+    int n = 0;
+}
+
+
+<div class="row">
+@foreach (dynamic item in Model)
+{
+    n++;
+    <div class="span3">
+        <h3><a href="/people/details/@(((string)item.Username).MD5Hash())">@item.DisplayName</a></h3>
+    </div>
+}
+@if (n == 0)
+{
+        <div class="span6 offset3">
+            <legend>No Results</legend>
+            <p>
+                There doesn't seem to be any jobs matching <em>@(Request.QueryString["q"])</em>.
+                More terms refine the results further, so try removing terms or varying the terms
+                you use.</p>
+        </div>
+}
+</div>

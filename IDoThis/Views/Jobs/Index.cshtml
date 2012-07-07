@@ -1,0 +1,79 @@
+﻿@model dynamic
+@{
+    ViewBag.Title = "Job Search";
+    if(!string.IsNullOrWhiteSpace(Request.QueryString["q"])) {
+        ViewBag.Title = "Search Results for '" + Request.QueryString["q"] + "'";
+    }
+    int n = 0;
+}
+@section Scripts {
+    <script type="text/javascript">
+        $('a[href="/jobs"]').parent().addClass('active');
+    </script>
+}
+
+<form class="form-inline" method="get" action="/jobs" style="text-align:center; margin-bottom:50px">
+    <div class="control-group">
+        <div class="controls">
+            <div class="input-prepend input-append">
+                <span class="add-on"><i class="icon-search"></i></span><input type="search" name="q" class="span10" value="@(Request.QueryString["q"])" placeholder="Search" /><button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="row">
+@foreach (dynamic item in Model)
+{
+    n++;
+    <div class="span3">
+        <h3><a href="/jobs/details/@item.Slug">@item.Title</a></h3>
+        <h5><small>@item.Location</small></h5>
+        <p>@item.Blurb</p>
+    </div>
+}
+@if (n == 0)
+{
+    <div class="span6 offset3">
+        <legend>No Results</legend>
+        <p>There doesn't seem to be any jobs matching <em>@(Request.QueryString["q"])</em>. 
+           More terms refine the results further, so try removing terms or varying 
+           the terms you use.</p>
+    </div>
+}
+</div>
+
+<div class="row" style="margin-top:50px">
+    <div class="span12" style="text-align:center">
+        <ul class="pager">
+            @{
+                string prevLink = (ViewBag.Page - 1).ToString();
+                if(!string.IsNullOrWhiteSpace(Request.QueryString["q"])) {
+                    prevLink += "?q=" + Request.QueryString["n"];
+                }
+
+                string nextLink = ViewBag.Page.ToString();
+                if (!string.IsNullOrWhiteSpace(Request.QueryString["q"]))
+                {
+                    nextLink += "?q=" + Request.QueryString["n"];
+                }
+                
+            }
+
+            @if (ViewBag.Page > 0)
+            {
+            <li class="previous">
+                <a href="/jobs/list/@prevLink"><i class="icon-chevron-left"></i></a> 
+            </li>
+            }
+            @if ((ViewBag.Pages - 1) > ViewBag.Page)
+            {
+            <li class="next">
+                <a href="/jobs/list/@nextLink">
+                    <i class="icon-chevron-right"></i>
+                </a> 
+            </li>
+            }
+        </ul>
+    </div>
+</div>

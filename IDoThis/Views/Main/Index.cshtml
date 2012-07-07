@@ -1,0 +1,33 @@
+﻿@model dynamic
+@{
+    ViewBag.Title = "Home";
+}
+
+<div class="row">
+    <div class="span6">
+        <div class="hero-unit" style="background-color:transparent; border:0">
+            <h1>No junk.</h1>
+            <h1>Just jobs.</h1>
+        </div>
+
+        <legend>Simple, clean, effective</legend>
+        <p>You hate the usual bullshit hiring processes and you hate those 
+           goddamn recruiters. We do too.</p>
+        <p>We charge to make sure that the service is bullshit-free and all 
+           about getting someone to hire, or hiring that one golden child</p>
+    </div>
+
+    <div class="span6">
+        <legend>Newest Jobs</legend>
+        <div class="row">
+            @foreach (dynamic item in Model)
+{
+                <div class="span3">
+                    <h3><a href="/jobs/details/@item.Slug">@item.Title</a></h3>
+                    <h5><small>@item.Location</small></h5>
+                    <p>@item.Blurb</p>
+                </div>
+}
+        </div>
+    </div>
+</div>

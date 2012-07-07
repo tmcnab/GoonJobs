@@ -1,0 +1,42 @@
+﻿@model dynamic
+@{
+    ViewBag.Title = "Details";
+}
+
+<div class="row">
+    <div class="span4">
+        <div class="btn-toolbar">
+            <div class="btn-group">
+                <a class="btn" rel="tooltip" title="Contact this Person">
+                    <i class="icon-envelope"></i> Contact
+                </a>
+                <a class="btn" rel="tooltip" title="Save for Later">
+                    <i class="icon-download-alt"></i> Save 
+                </a>
+                <a class="btn" rel="tooltip" title="Share this Contact via Email">
+                    <i class="icon-share"></i> Share
+                </a>
+                <a class="btn" rel="tooltip" title="Flag as Inappropriate">
+                    <i class="icon-flag"></i> Flag
+                </a>
+            </div>
+        </div>
+@if (Model.GProfile != null)
+{        
+        <img src="@Model.GProfile.thumbnailUrl" />
+        if (Model.GProfile.IsDefined("currentLocation"))
+        {
+        <dl>
+            <dt>Location</dt>
+            <dd>@Model.GProfile.currentLocation</dd>
+        </dl>
+        }
+}
+    </div>
+    <div class="span8">
+        <legend>@Model.SProfile.DisplayName</legend>
+
+        <p>@Model.SProfile.Description</p>
+    </div>
+</div>
+<pre>@Model.GProfile</pre>

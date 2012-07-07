@@ -1,0 +1,63 @@
+﻿@{
+    ViewBag.Title = "Account Upgrade";
+}
+@section Styles {
+    <style>
+        .form-horizontal .form-actions {
+            padding-left: 20px;
+              text-align: center;
+        }
+    </style>
+}
+
+
+
+<div class="row">
+    <div class="span8 offset2">
+        <legend>Account Upgrade</legend>
+        <p>To support running the service and to guide users towards productive 
+           usage, a nominal payment is required. Think of it as a security 
+           deposit against others abusing the service.</p>
+
+        <p>If you choose to upgrade your account, the minimum level of payment 
+           will unlock all functionality. The other levels are to show your
+           support of the service - you'll even get a custom thank-you email!</p>
+
+        <div class="row-fluid">
+            <div class="span6">
+                <form class="form-horizontal" action="/profile/activate" method="post">
+                    <legend><strong><small>I Have a Code</small></strong></legend>
+
+                    <div class="control-group">
+                        <label class="control-label">Activation Code</label>
+                        <div class="controls">
+                            <input type="text" name="activation_code" maxlength="10" class="input-small" required />
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="icon-ok icon-white"></i> Submit
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="span6">
+                <form class="form-horizontal" action="/profile/activate" method="post">
+                    <legend><strong><small>I'd Like to Pay Now</small></strong></legend>
+                    <div class="control-group">
+                        <label class="control-label">Pay Now</label>
+                        <div class="controls">
+                            <input type="text" name="activation_code" maxlength="10" class="input-small" />
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn">
+                             Pay Now &raquo;
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

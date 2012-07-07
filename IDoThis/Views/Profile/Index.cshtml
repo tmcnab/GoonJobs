@@ -1,0 +1,145 @@
+﻿@model dynamic
+@using IDoThis.Helpers;
+@{
+    ViewBag.Title = User.Identity.Name;
+}
+@section Scripts {
+    <script type="text/javascript">
+        $('a[href="/profile"]').parent().addClass('active');
+    </script>
+}
+
+<div class="tabbable">
+    <ul class="nav nav-tabs">
+        <li class="active">
+            <a href="#saved" data-toggle="tab">Saved Jobs</a>
+        </li>
+        <li>
+            <a href="#listings" data-toggle="tab">Advertised Listings</a>
+        </li>
+        <li>
+            <a href="#profile" data-toggle="tab">My Profile</a>
+        </li>
+        <li class="pull-right">
+            <a href="/auth/signout">Sign Out</a>
+        </li>
+    @if (!Model.HasPaid)
+    {
+        <li class="pull-right">
+            <a data-toggle="modal" href="/profile/upgrade">
+                Upgrade Account
+            </a>
+        </li>
+    }
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active fade in" id="saved">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Summary</th>
+                        <th>Posted</th>
+                        <th>Expires</th>
+                        <th style="width: 1px"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (dynamic item in Model.Saved)
+                {
+                    <tr>
+                        <td><a href="/jobs/details/@item.Slug">@item.Title</a></td>
+                        <td>@item.Blurb</td>
+                        <td>@item.Posted.ToShortDateString()</td>
+                        <td>@((item.Expires - DateTime.UtcNow).Days) days</td>
+                        <td><a class="btn btn-mini"><i class="icon-remove"></i></a></td>
+                    </tr>
+                }
+                </tbody>
+                @if (Model.Saved.Count == 0)
+                {
+                <tfoot>
+                    <tr>
+                        <td colspan="5" style="text-align:center"><small>You haven't saved any jobs.</small></td>
+                    </tr>
+                </tfoot>
+                }
+            </table>
+        </div>
+        <div class="tab-pane fade" id="listings">
+            <table class="table" style="width:99%">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th style="width:40%">Summary</th>
+                        <th>Posted</th>
+                        <th>Expires</th>
+                        <th style="width:1%">Filled?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (dynamic item in Model.Listings)
+                {
+                    <tr>
+                        <td><a href="/jobs/details/@item.Slug">@item.Title</a></td>
+                        <td>@item.Blurb</td>
+                        <td>@item.Posted.ToShortDateString()</td>
+                        <td>@((item.Expires - DateTime.UtcNow).Days) days</td>
+                        <td><a class="btn btn-mini"><i class="icon-ok"></i></a></td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="profile">
+            <form class="form-horizontal" method="post" action="">
+
+                <div class="control-group">
+                    <label class="control-label">Hirability</label>
+                    <div class="controls">
+                    @if(Model.Profile.HasPaid) 
+                    {
+                        <label class="checkbox">
+                            @Html.CheckBox("IsHirable", (bool)Model.Profile.IsHirable) I'm open to being contacted for hiring 
+                        </label>
+                    }
+                    else 
+                    {
+                        <span>You cannot be hirable if you have not <a href="/profile/upgrade">upgraded your account</a>.</span>
+                        @Html.Hidden("IsHirable", (bool)Model.Profile.IsHirable)
+                    }
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label" style="padding-top: 0px">Extended Profile</label>
+                    <div class="controls">
+                        <a href="@User.GravatarProfileLink()" target="_blank" class="btn btn-info">
+                            Go to Gravatar <i class="icon-chevron-right icon-white"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">Showcase Url</label>
+                    <div class="controls">
+                        @Html.TextBox("ShowcaseUrl", (string)Model.Profile.ShowcaseUrl, new { @class = "span9", type = "url", maxlength = "200", placeholder = "http://mysite.com/gallery" })
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">Pitch Yourself</label>
+                    <div class="controls">
+                        @Html.TextArea("Description", (string)Model.Profile.Description, new { @class = "span9", rows = "10" })
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="icon-ok icon-white"></i> Save Profile
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,16 @@
+﻿@*@model dynamic*@
+@{
+    ViewBag.Title = "You've Been Banned!";
+}
+
+<div class="row">
+    <div class="span6 offset3">
+        <legend>Account Banned</legend>
+
+        <p>Due to violations of this service's <a href="/legal/terms">Terms of Service</a>, 
+           your account has been banned. More specifically, you were banned because:</p>
+        <pre>@*@Model.BanReason*@</pre>
+        <p>If you would like to appeal this decision, please contact our 
+           <a href="mailto://support@idothis.com">Support Email</a>.</p>
+    </div>
+</div>

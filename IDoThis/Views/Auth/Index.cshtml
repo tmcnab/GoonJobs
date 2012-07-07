@@ -1,0 +1,53 @@
+﻿@{
+    ViewBag.Title = "Sign In";
+}
+@section Scripts {
+    <script type="text/javascript" src="https://browserid.org/include.js"></script>
+    <script type="text/javascript">
+        $('a[href="/auth"]').parent().addClass('active');
+
+        $('#SignInBtn').click(function () {
+            navigator.id.getVerifiedEmail(gotVerifiedEmail);
+        });
+
+        function gotVerifiedEmail(assertion) {
+            // got an assertion, now send it up to the server for verification
+            if (assertion !== null) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Auth/SignIn',
+                    data: { assertion: assertion },
+                    success: function (res, status, xhr) {
+                        if (res != null) {
+                            if (res.is_banned === false) {
+                                window.location = document.referrer;
+                            }
+                            else {
+                                window.location = '/profile/banned';
+                            }
+                        }
+
+                    },
+                    error: function (res, status, xhr) {
+                        alert("login failure" + res);
+                    }
+                });
+            }
+        }
+    </script>
+}
+
+<div class="row">
+    <div class="span6 offset3">
+        <legend>Sign In</legend>
+        <p>You must sign in to continue. A popup-dialog will appear when the button 
+          below is clicked. BrowserID registration is free, private and secure. You 
+          can read more about BrowserID <a href="https://browserid.org/about/" target="_blank">here</a>.
+        </p>
+        <div class="form-actions" style="text-align:center">
+            <a class="btn btn-primary" id="SignInBtn">
+                <i class="icon-lock icon-white"></i> Sign In with BrowserID
+            </a>
+        </div>
+    </div>
+</div>

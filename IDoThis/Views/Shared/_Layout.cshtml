@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - GoonJobs</title>
+    <link href="/Content/css/bootstrap.css" rel="stylesheet" type="text/css" />
+    @RenderSection("Styles", false)
+</head>
+<body>
+    @Html.Partial("NavBar")
+    <div class="container" style="margin-top:100px">
+        @RenderBody()
+    </div>
+    <footer class="navbar-fixed-bottom" style="text-align:center; background-color:White; border-top:1px solid #DDD">
+        <p><small>
+            GoonJobs &copy; <a href="http://seditious-tech.com">Seditious Technologies</a> 2011-@DateTime.Now.Year | 
+            <a href="/jobs/rss">Newest Jobs RSS Firehose</a> |
+            <a href="/legal">Legal</a></small>
+        </p>
+    </footer>
+    <script type="text/javascript" src="/Scripts/ui/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="/Scripts/ui/bootstrap.js"></script>
+    <script type="text/javascript">
+        $('*[rel="tooltip"]').tooltip();
+    </script>
+    @RenderSection("Scripts", false)
+</body>
+</html>

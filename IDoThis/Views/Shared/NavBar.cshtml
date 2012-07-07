@@ -1,0 +1,53 @@
+﻿@using IDoThis.Models
+
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="/">
+                <img alt="FYAD" src="/Content/images/SA_Grenade.png" height="16px" style="margin-top:-5px" /> GoonJobs
+            </a>
+            <div class="nav-collapse">
+                <ul class="nav">
+                    <li>
+                        <a href="/jobs">
+                            <i class="icon-search"></i> Find a Job
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/jobs/add">
+                            <i class="icon-plus"></i> Post a Job
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/people">
+                            <i class="icon-user"></i> Find Talent
+                        </a>
+                    </li>
+                </ul>
+                <ul class="nav pull-right">
+                @if (Request.IsAuthenticated)
+                {
+                    <li>
+                        <a href="/profile">
+                            @User.Identity.Name <span class="label">@User.Profile().Saved.Count</span>
+                        </a>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        <a href="/auth">
+                            <i class="icon-lock"></i> Sign In
+                        </a>
+                    </li>
+                }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

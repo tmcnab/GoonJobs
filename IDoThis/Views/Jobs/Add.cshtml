@@ -1,0 +1,87 @@
+﻿@model IDoThis.Models.JobListingViewModel
+@{
+    ViewBag.Title = "Add a Job Listing";
+}
+@section Styles {
+    <link href="/Content/css/bootstrap.wysihtml5.css" rel="stylesheet" type="text/css" />
+    <style>
+        textarea {
+            resize: vertical;
+        }
+    </style>
+}
+@section Scripts {
+    <script type="text/javascript" src="/Scripts/util/jquery.validate.js"></script>
+    <script type="text/javascript" src="/Scripts/util/jquery.validate.unobtrusive.js"></script>
+    <script type="text/javascript" src="/Scripts/ui/wysihtml5-0.3.0.js"></script>
+    <script type="text/javascript" src="/Scripts/ui/bootstrap-wysihtml5.js"></script>
+    <script type="text/javascript">
+        $('a[href="/jobs/add"]').parent().addClass('active');
+        $('textarea[name="Body"]').wysihtml5({
+                  "image": false,
+            "font-styles": false
+        });
+    </script>
+}
+
+@if (!MvcHtmlString.IsNullOrEmpty(Html.ValidationSummary()))
+{
+    <div class="alert alert-error fade in">
+        <button class="close" data-dismiss="alert">&times;</button>
+        <strong>Oh snap!</strong>&nbsp;&nbsp;&nbsp;&nbsp;There was an error submitting your listing. Please rectify the specified errors.
+    </div>
+}
+
+<form class="form-horizontal" action="/jobs/add" method="post">
+    <fieldset>
+        <div class="control-group">
+            <label class="control-label">Job Title</label>
+            <div class="controls">
+                @Html.TextBoxFor(model => model.Title, new { @class = "span9", required = "required", maxlength = 50, placeholder = "Junior UI/UX Designer (be as specific as possible)" })
+                <p class="help-block">@Html.ValidationMessageFor(model => model.Title)</p>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label">Blurb</label>
+            <div class="controls">
+                @Html.TextBoxFor(model => model.Blurb, new { @class = "span9", required = "required", placeholder = "An attention-grabbing one-liner summarizing why someone should click on your listing." })
+                <p class="help-block">@Html.ValidationMessageFor(model => model.Blurb)</p>
+            </div>
+        </div>
+            
+        <div class="control-group">
+            <label class="control-label">Who's hiring?</label>
+            <div class="controls">
+                @Html.TextBoxFor(model => model.Who, new { @class = "span9", placeholder = "Acme, Inc." })
+                <p class="help-block">@Html.ValidationMessageFor(model => model.Who)</p>
+            </div>    
+        </div>
+
+        <div class="control-group">
+            <label class="control-label">Job Location</label>
+            <div class="controls">
+                @Html.TextBoxFor(model => model.Where, new { @class = "span9", placeholder = "San Francisco, CA" })
+                <p class="help-inline">@Html.ValidationMessageFor(model => model.Where)</p>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label">Listing</label>
+            <div class="controls">
+                @Html.TextAreaFor(model => model.Body, new { @class = "span9", required = "required", rows = "14", maxlength = "10000" })
+                <p class="help-block">@Html.ValidationMessageFor(model => model.Body)</p>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+                <i class="icon-ok icon-white"></i> Add Listing
+            </button>
+            <a href="/jobs" class="btn btn-danger">
+                <i class="icon-remove icon-white"></i> Cancel
+            </a>
+        </div>
+
+    </fieldset>
+</form>

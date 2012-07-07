@@ -1,0 +1,58 @@
+﻿@model dynamic
+@{
+    ViewBag.Title = Model.Title;
+}
+@section Styles {
+    <style>
+        div.row-fluid {
+            margin-top: 15px;
+        }
+    </style>
+}
+
+
+<div class="row">
+    <div class="span4">
+        <legend>@Model.Who</legend>
+    @if (Request.IsAuthenticated)
+    {
+        <div class="btn-toolbar">
+            <div class="btn-group">
+                <a class="btn" href="/jobs/apply/@Model.Slug">
+                    <i class="icon-check"></i> Apply
+                </a>
+                <a class="btn" href="/jobs/save/@Model.Slug">
+                    <i class="icon-download-alt"></i> Save
+                </a>
+                <a class="btn" href="mailto://?subject=@Model.Title - IDoThis Job Listing&body=@Model.Blurb\nhttp://localhost:52148/jobs/details/@Model.Slug" target="_blank">
+                    <i class="icon-envelope"></i> Mail
+                </a>
+                <a class="btn" href="/jobs/report/@Model.Slug">
+                    <i class="icon-flag"></i> Flag
+                </a>
+            </div>
+        </div>
+    } else {
+        <div class="btn-toolbar">
+            <div class="btn-group">
+                <a class="btn" href="/auth">
+                    <i class="icon-lock"></i> Sign In to Apply
+                </a>
+            </div>
+        </div>
+    }
+        <dl>
+            <dt>Where</dt>
+            <dd>@Model.Location</dd>
+            <dt>Posted</dt>
+            <dd>@Model.Posted.ToShortDateString()</dd>
+            <dt>Expires</dt>
+            <dd>@((Model.Expires - DateTime.UtcNow).Days) days</dd>
+        </dl>
+    </div>
+    <div class="span8">
+        <legend>@Model.Title</legend>
+ 
+        @Html.Raw(Model.Body)
+    </div>
+</div>
