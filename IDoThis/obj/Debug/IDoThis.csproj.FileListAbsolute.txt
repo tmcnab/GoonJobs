@@ -24,3 +24,5 @@ C:\Users\Tristan McNab\Documents\Visual Studio 2010\Projects\IDoThis\IDoThis\obj
 C:\Users\Tristan McNab\Documents\Visual Studio 2010\Projects\IDoThis\IDoThis\obj\Debug\IDoThis.dll
 C:\Users\Tristan McNab\Documents\Visual Studio 2010\Projects\IDoThis\IDoThis\obj\Debug\IDoThis.pdb
 C:\Users\Tristan McNab\Documents\Visual Studio 2010\Projects\IDoThis\IDoThis\bin\MvcPaging.dll
+C:\Users\Tristan McNab\Documents\Visual Studio 2010\Projects\IDoThis\IDoThis\bin\HtmlAgilityPack.dll
+C:\Users\Tristan McNab\Documents\Visual Studio 2010\Projects\IDoThis\IDoThis\bin\HtmlAgilityPack.pdb

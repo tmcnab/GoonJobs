@@ -5,6 +5,17 @@
     <title>@ViewBag.Title - GoonJobs</title>
     <link href="/Content/css/bootstrap.css" rel="stylesheet" type="text/css" />
     @RenderSection("Styles", false)
+    <style>
+        a.dotted {
+            border-bottom: 1px dotted #999;
+            text-decoration:none;
+        }
+        
+        a.dotted:hover {
+            border-bottom: 1px solid #999;
+            text-decoration:none;
+        }
+    </style>
 </head>
 <body>
     @Html.Partial("NavBar")
@@ -13,12 +24,12 @@
     </div>
     <footer class="navbar-fixed-bottom" style="text-align:center; background-color:White; border-top:1px solid #DDD">
         <p><small>
-            GoonJobs &copy; <a href="http://seditious-tech.com">Seditious Technologies</a> 2011-@DateTime.Now.Year | 
-            <a href="/jobs/rss">Newest Jobs RSS Firehose</a> |
-            <a href="/legal">Legal</a></small>
+            GoonJobs &copy; <a class="dotted" href="http://seditious-tech.com">Seditious Technologies</a> 2011-@DateTime.Now.Year | 
+            <a class="dotted" href="/jobs/rss">Newest Jobs RSS Firehose</a> |
+            <a class="dotted" href="/legal">Legal</a></small>
         @if (User.Identity.Name == "tristan@seditious-tech.com")
         {
-            @:| <a href="/acp">ACP</a>
+            @:| <a class="dotted" href="/acp">ACP</a>
         }
         </p>
     </footer>

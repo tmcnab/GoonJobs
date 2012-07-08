@@ -25,8 +25,7 @@
                                        .TrimEnd(']');
                 return DynamicJson.Parse(data);
             }
-            catch (Exception ex)
-            {
+            catch {
                 return null;
             }
         }

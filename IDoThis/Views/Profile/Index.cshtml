@@ -15,6 +15,7 @@
             "image": false,
             "font-styles": false
         });
+        $('[rel="popover"]').popover();
     </script>
 }
 <div class="tabbable">
@@ -58,7 +59,7 @@
                     if (item.Expires > DateTime.UtcNow)
                     {
                     <tr>
-                        <td><a href="/jobs/details/@item.Slug">@item.Title</a></td>
+                        <td><a class="dotted" href="/jobs/details/@item.Slug">@item.Title</a></td>
                         <td>@item.Blurb</td>
                         <td>@item.Posted.ToShortDateString()</td>
                         <td>@((item.Expires - DateTime.UtcNow).Days) days</td>
@@ -96,7 +97,7 @@
                 @foreach (dynamic item in Model.Listings)
                 {
                     <tr>
-                        <td><a href="/jobs/details/@item.Slug">@item.Title</a></td>
+                        <td><a class="dotted" href="/jobs/details/@item.Slug">@item.Title</a></td>
                         <td>@item.Blurb</td>
                         <td>@item.Posted.ToShortDateString()</td>
                         <td>
@@ -144,7 +145,7 @@
                 <div class="control-group">
                     <label class="control-label" style="padding-top: 0px">Extended Profile</label>
                     <div class="controls">
-                        <a href="@User.GravatarProfileLink()" target="_blank" class="btn btn-info btn-mini">
+                        <a href="@User.GravatarProfileLink()" target="_blank" class="btn btn-info btn-mini" rel="popover" data-title="Gravatar" data-content="GoonJobs uses Gravatar for your personal details. You will not be listed unless you have a Gravatar account with a firstname and lastname.">
                             Go to Gravatar <i class="icon-chevron-right icon-white"></i>
                         </a>
                     </div>
@@ -153,7 +154,7 @@
                 <div class="control-group">
                     <label class="control-label">Pitch Yourself</label>
                     <div class="controls">
-                        @Html.TextArea("Pitch", (string)Model.Profile.Description, new { @class = "span9", rows = "16" })
+                        @Html.TextArea("Pitch", (string)Model.Profile.Description, new { @class = "span9", rows = "20" })
                     </div>
                 </div>
 

@@ -1,0 +1,45 @@
+﻿@model IDoThis.Controllers.PeopleController.PeopleContactViewModel
+@{
+    ViewBag.Title = "Contact";
+}
+@section Styles {
+    <link rel="stylesheet" href="/Content/css/bootstrap.wysihtml5.css" />
+}
+@section Scripts {
+    <script type="text/javascript" src="/Scripts/ui/wysihtml5-0.3.0.js"></script>
+    <script type="text/javascript" src="/Scripts/ui/bootstrap-wysihtml5.js"></script>
+    <script type="text/javascript">
+        $('a[href="/people"]').parent().addClass('active');
+        $('textarea[name="Body"]').wysihtml5({
+                  "image": false,
+            "font-styles": false
+        });
+    </script>
+}
+
+<div class="alert alert-info fade in">
+    <button class="close" data-dismiss="alert">&times;</button>
+    You're sending a message to another user. To go back to the user 
+    <a href="/people/details/@ViewBag.Recipient.UsernameHashed">click here</a>.
+</div>
+
+
+<form class="form-horizontal" method="post" action="/people/contact/@ViewBag.Recipient.UsernameHashed">
+    <div class="control-group">
+        <label class="control-label">Message</label>
+        <div class="controls">
+            @Html.TextAreaFor(model => model.Body, new { @class = "span9", maxlength = 10000, rows = 20, required = "required"})
+            <p class="help-block">@Html.ValidationMessageFor(model => model.Body)</p>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">
+            <i class="icon-ok icon-white"></i> Send
+        </button>
+
+        <a class="btn btn-info" href="/people/details/@ViewBag.Recipient.UsernameHashed">
+            <i class="icon-remove icon-white"></i> Cancel
+        </a>
+    </div>
+</form>

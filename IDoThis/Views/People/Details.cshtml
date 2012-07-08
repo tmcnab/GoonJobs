@@ -1,58 +1,66 @@
 ﻿@model dynamic
+@using IDoThis.Helpers
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = Model.GProfile.name.givenName + " " + Model.GProfile.name.familyName;
 }
-
+@section Scripts {
+    <script type="text/javascript">
+        $('a[href="/people"]').parent().addClass('active');
+    </script>
+}
 <div class="row">
     <div class="span3">
-        <div class="thumbnail">
-            <img src="http://www.gravatar.com/avatar/@(Model.GProfile.hash)?s=220" alt="">
-        </div>
-
-        @if (Model.GProfile.IsDefined("aboutMe"))
-        {
-        <p>@Model.GProfile.aboutMe</p>
-        }
-
-        @if(Model.GProfile.IsDefined("currentLocation")) {
-        <dl>
-            <dt>Location</dt>
-            <dd>@Model.GProfile.currentLocation</dd>
-        </dl>
-        }
-        @if(Model.GProfile.IsDefined("accounts"))
-        {
-            <dl>
-                <dt>Presence</dt>
-                @foreach (dynamic item in Model.GProfile.accounts)
-                {
-                    <dd><a href="@item.url">@item.shortname</a></dd>
-                }
-            </dl>
-        }
-        @if(Model.GProfile.IsDefined("urls"))
-        {
-        <dl>
-            <dt>Urls</dt>
-            @foreach (dynamic item in Model.GProfile.urls)
-            {
-             <dd><a href="@item.value" target="_blank">@item.title</a></dd>
+        <div class="row">
+            <div class="span2" style="margin-left:0">
+                <div class="thumbnail" style="margin-right:10px">
+                    <img src="http://www.gravatar.com/avatar/@(Model.GProfile.hash)?s=220" alt="">
+                </div>
+            </div>
+    
+            @if (Model.GProfile.IsDefined("aboutMe")) {
+            <p style="text-align:justify"><small>@Model.GProfile.aboutMe</small></p>
             }
-        </dl>
-        }
+        
+            <div class="span4" style="margin-left:0">
+            @if(Model.GProfile.IsDefined("currentLocation")) {
+                <dl>
+                    <dt>Location</dt>
+                    <dd>@Model.GProfile.currentLocation</dd>
+                </dl>
+            }
+            
+            @if(Model.GProfile.IsDefined("accounts")) {
+                <dl>
+                    <dt>Presence</dt>
+                    @foreach (dynamic item in Model.GProfile.accounts) {
+                    <dd><a class="dotted" href="@item.url" target="_blank">@item.shortname</a></dd>
+                    }
+                </dl>
+            }
+            
+            @if(Model.GProfile.IsDefined("urls")) {
+                <dl>
+                    <dt>Urls</dt>
+                @foreach (dynamic item in Model.GProfile.urls) {
+                    <dd><a class="dotted" href="@item.value" target="_blank">@item.title</a></dd>
+                }
+                </dl>
+            }
+            </div>
+        </div>
     </div>
     <div class="span8 offset1">
-        <legend> @Model.GProfile.name.givenName @Model.GProfile.name.familyName
+        <legend>@Model.GProfile.name.givenName @Model.GProfile.name.familyName
 
         <div class="btn-toolbar pull-right">
             <div class="btn-group">
-                <a class="btn" rel="tooltip" title="Contact this Person">
+                <a class="btn" rel="tooltip" title="Contact this Person" href="/people/contact/@Model.SProfile.UsernameHashed">
                     <i class="icon-envelope"></i> Contact
                 </a>
-                <a class="btn" rel="tooltip" title="Share this Contact via Email">
+                <a class="btn" rel="tooltip" title="Share this Contact via Email" href="/people/share/@Model.SProfile.UsernameHashed">
                     <i class="icon-share"></i> Share
                 </a>
-                <a class="btn" rel="tooltip" title="Flag as Inappropriate">
+                <a class="btn" rel="tooltip" title="Flag as Inappropriate" data-toggle="modal" data-target="#FlagModal">
                     <i class="icon-flag"></i> Flag
                 </a>
             </div>
@@ -60,5 +68,32 @@
         </legend>
 
         <p>@Html.Raw(Model.SProfile.Description)</p>
+    </div>
+</div>
+
+<div id="FlagModal" class="modal fade">
+    <div class="modal-header">
+        <button class="close" data-dismiss="modal">&times;</button>
+        <h3>Report Profile</h3>
+    </div>
+    <div class="modal-body">
+        <p>You are about to report <strong>@Model.GProfile.name.givenName 
+           @Model.GProfile.name.familyName</strong> for inappropriate content. 
+           This can include, but is not limited to:</p>
+        <ul>
+            <li>Pornography</li>
+            <li>Spam or advertising</li>
+            <li>Malware distribution</li>
+        </ul>
+        <p>Abusing the reporting system is a violation itself and repeated false reports will
+           result in a ban.</p>
+    </div>
+    <div class="modal-footer">
+        <a class="btn btn-danger pull-left" href="/people/flag/@Model.SProfile.UsernameHashed">
+            <i class="icon-warning-sign icon-white"></i> Report
+        </a>
+        <a data-dismiss="modal" class="btn btn-primary">
+            Close
+        </a>
     </div>
 </div>
