@@ -1,10 +1,10 @@
 ﻿namespace IDoThis.Models
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Configuration;
     using System.Security.Principal;
+    using System.Web.Mvc;
     using IDoThis.Helpers;
     using Simple.Data;
     using Simple.Data.MongoDB;
@@ -12,8 +12,6 @@
     public class UserProfile
     {
         #region Fields
-
-        public List<string> AppliedFor { get; set; }
 
         public string Description { get; set; }
 
@@ -25,15 +23,9 @@
 
         public DateTime LastLogin { get; set; }
 
-        public List<string> Saved { get; set; }
-        
-        public string ShowcaseUrl { get; set; }
-
         public string Username { get; set; }
 
         public string UsernameHashed { get; set; }
-
-        public string DisplayName { get; set; }
 
         #endregion
 
@@ -43,17 +35,13 @@
 
         public UserProfile(string username)
         {
-            this.AppliedFor = new List<string>();
             this.Description = string.Empty;
             this.HasPaid = false;
             this.IsBanned = false;
             this.IsHirable = false;
             this.LastLogin = DateTime.UtcNow;
-            this.Saved = new List<string>();
-            this.ShowcaseUrl = string.Empty;
             this.Username = username;
             this.UsernameHashed = username.Trim().ToLowerInvariant().MD5Hash();
-            this.DisplayName = string.Empty;
         }
 
         #endregion
@@ -80,8 +68,7 @@
             public static dynamic PublicProfiles {
                 get {
                     return UserProfiles.All().Where(db.UserProfiles.IsHirable == true && 
-                                                    db.UserProfiles.IsBanned == false &&
-                                                    db.UserProfiles.DisplayName != string.Empty);
+                                                    db.UserProfiles.IsBanned == false);
                 }
             }
         }
@@ -97,15 +84,9 @@
 
     public class UserProfileUpdateModel
     {
-        [StringLength(100)]
-        public string DisplayName { get; set; }
-
+        [AllowHtml]
         [StringLength(10000)]
-        public string Description { get; set; }
-
-        [StringLength(200)]
-        [DataType(DataType.Url)]
-        public string ShowcaseUrl { get; set; }
+        public string Pitch { get; set; }
 
         [Required]
         public bool IsHirable { get; set; }

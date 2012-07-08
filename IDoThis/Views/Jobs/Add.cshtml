@@ -50,19 +50,24 @@
             </div>
         </div>
             
-        <div class="control-group">
-            <label class="control-label">Who's hiring?</label>
-            <div class="controls">
-                @Html.TextBoxFor(model => model.Who, new { @class = "span9", placeholder = "Acme, Inc." })
-                <p class="help-block">@Html.ValidationMessageFor(model => model.Who)</p>
-            </div>    
-        </div>
-
-        <div class="control-group">
-            <label class="control-label">Job Location</label>
-            <div class="controls">
-                @Html.TextBoxFor(model => model.Where, new { @class = "span9", placeholder = "San Francisco, CA" })
-                <p class="help-inline">@Html.ValidationMessageFor(model => model.Where)</p>
+        <div class="row">
+            <div class="span5">
+                <div class="control-group">
+                    <label class="control-label">Who's hiring?</label>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.Who, new { @class = "span3", placeholder = "Acme, Inc." })
+                        <p class="help-block">@Html.ValidationMessageFor(model => model.Who)</p>
+                    </div>    
+                </div>
+            </div>
+            <div class="span5">
+                <div class="control-group">
+                    <label class="control-label">Job Location</label>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.Where, new { @class = "span4", placeholder = "San Francisco, CA" })
+                        <p class="help-inline">@Html.ValidationMessageFor(model => model.Where)</p>
+                    </div>
+                </div>
             </div>
         </div>
 

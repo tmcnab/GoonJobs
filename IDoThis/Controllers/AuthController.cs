@@ -20,9 +20,7 @@
             if (verificationResult.IsVerified)
             {
                 string email = verificationResult.Email;
-                FormsAuthentication.SetAuthCookie(email, false);
-                var profile = User.Profile();
-
+                var profile = UserProfile.DAL.UserProfiles.FindByUsername(email);
                 if (profile == null) 
                 {
                     profile = new UserProfile(verificationResult.Email);
@@ -45,7 +43,7 @@
                     }
                 }
 
-                
+                FormsAuthentication.SetAuthCookie(email, false);
                 return Json(new
                 {
                     email = email,

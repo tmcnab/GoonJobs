@@ -16,9 +16,9 @@
 <table class="table table-condensed">
     <thead>
         <tr>
-            <th>Code</th>
+            <th style="width:15%">Code</th>
             <th>User</th>
-            <th>Activated (UTC)</th>
+            <th style="width:30%">Activated (UTC)</th>
         </tr>
     </thead>
     <tbody>
@@ -29,7 +29,7 @@
             <td>@item.Username</td>
             <td>@if (item.Activated != DateTime.MinValue)
                 {
-                    @item.Activated.ToString();
+                    @(item.Activated.ToLongTimeString()) @:&nbsp; @(item.Activated.ToLongDateString())
                 }
             </td>
         </tr>

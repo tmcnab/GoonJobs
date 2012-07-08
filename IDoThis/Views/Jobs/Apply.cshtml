@@ -1,25 +1,37 @@
 ﻿@model dynamic
 @{
-    ViewBag.Title = "Job Application - " + Model.JobTitle;
+    ViewBag.Title = "Job Application - " + Model.Title;
 }
+@section Styles {
+    <link rel="stylesheet" href="/Content/css/bootstrap.wysihtml5.css" />
+}
+@section Scripts {
+    <script type="text/javascript" src="/Scripts/ui/wysihtml5-0.3.0.js"></script>
+    <script type="text/javascript" src="/Scripts/ui/bootstrap-wysihtml5.js"></script>
+    <script type="text/javascript">
+        $('textarea').wysihtml5({
+                  "image": false,
+            "font-styles": false
+        });
+    </script>
+}
+
 
 @if (ViewBag.Errors == true)
 {
     <div class="alert alert-error fade in">
-        <a class="close" data-dismiss="alert">&times;</a> 
+        <button class="close" data-dismiss="alert">&times;</button> 
         <strong>Oh snap!</strong> There was an error submitting your application. Please make sure you've completed the required fields.
     </div>    
 }
 
 <div class="alert alert-info fade in">
     <a class="close" data-dismiss="alert">&times;</a>
-    <strong>Hey there!</strong> You're applying for the @Model.JobTitle position at @Model.Who. 
+    <strong>Hey there!</strong> You're applying for the @Model.Title position at @Model.Who. 
     <a href="/jobs/details/@Model.Slug">Click here</a> to go back to the job listing.
 </div>
 
-<form class="form-horizontal" action="/jobs/apply/@Model.Slug" method="post">
-    <fieldset>
-        
+<form class="form-horizontal" action="/jobs/apply/@Model.Slug" method="post">        
         <div class="control-group">
             <label class="control-label">Your Name</label>
             <div class="controls">
@@ -30,25 +42,7 @@
         <div class="control-group">
             <label class="control-label">Application Letter</label>
             <div class="controls">
-                <textarea name="application_letter" class="span10" maxlength="5000" rows="16" style="resize:vertical" required="required">
-Hi!
-
-My name is Johnny Appleseed and I am a developer at Awesome, Inc. I saw your job listing on IAmThis and here is why you should choose me for the @Model.JobTitle position:
-
- - Stong problem solving skills
- - etc
-
-More information can be found on my website.
-
-Cheers,
-Johnny Appleseed</textarea>
-            </div>
-        </div>
-
-        <div class="control-group">
-            <label class="control-label">Portfolio/Examples</label>
-            <div class="controls">
-                <input type="url" class="span10" maxlength="200" name="examples_url" placeholder="http://johnny-appleseed.com" />
+                <textarea name="application_letter" class="span10" maxlength="10000" rows="20" style="resize:vertical" required="required"></textarea>
             </div>
         </div>
 
@@ -57,5 +51,4 @@ Johnny Appleseed</textarea>
                 <i class="icon-envelope icon-white"></i> Send
             </button>
         </div>
-    </fieldset>
 </form>

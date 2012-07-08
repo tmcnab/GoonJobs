@@ -112,6 +112,47 @@
 
         #endregion
 
+        #region Saving Jobs for Later
+
+        [Authorize]
+        [Route("jobs/save/{slug}", HttpVerbs.Get)]
+        public ActionResult SaveJob(string slug)
+        {
+            User.SaveListing(slug);
+            return RedirectToAction("Details", new { slug = slug });
+        }
+
+        [Authorize]
+        [Route("jobs/unsave/{slug}", HttpVerbs.Get)]
+        public ActionResult UnSaveJob(string slug)
+        {
+            User.UnSaveListing(slug);
+            return RedirectToAction("Index", "Profile");
+        }
+
+        #endregion
+
+        #region Delisting Jobs
+
+        [Authorize]
+        [Route("jobs/delist/{slug}", HttpVerbs.Get)]
+        public ActionResult Delist(string slug)
+        {
+            var model = JobListing.DAL.Listings.FindBySlugAndUser(slug, User.Identity.Name);
+            if (model == null)
+            {
+                return View("404");
+            }
+            else
+            {
+                model.Expires = DateTime.MinValue;
+                JobListing.DAL.Listings.Update(model);
+                return RedirectToAction("Index", "Profile");
+            }
+        }
+
+        #endregion
+
         #region RSS
 
         [OutputCache(Duration = 60)]

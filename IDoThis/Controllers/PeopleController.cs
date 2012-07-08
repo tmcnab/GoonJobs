@@ -1,13 +1,10 @@
 ﻿namespace IDoThis.Controllers
 {
+    using System.Collections.Generic;
     using System.Dynamic;
-    using System.Net;
     using System.Web.Mvc;
     using AttributeRouting.Web.Mvc;
-    using Codeplex.Data;
-    using System;
     using IDoThis.Models;
-    using System.Text;
 
     public class PeopleController : Controller
     {
@@ -15,10 +12,23 @@
         [Route("people/list/{?pg}", HttpVerbs.Get)]
         public ActionResult Index(int pg = 0, string q = "")
         {
-            dynamic model = UserProfile.DAL.PublicProfiles
-                                       .OrderByLastLoginDescending();
-                                   
-            return View(model.Skip(pg * 12).Take(12));
+            dynamic profiles = UserProfile.DAL.PublicProfiles
+                                          .OrderByLastLoginDescending()
+                                          .Skip(pg * 18)
+                                          .Take(18);
+
+            var model = new List<dynamic>();
+            foreach (var p in profiles)
+            {
+                var result = Gravatar.Profile(p.UsernameHashed);
+                if(result != null && result.IsDefined("name") 
+                                  && result.name.IsDefined("givenName") 
+                                  && result.name.IsDefined("familyName")) {
+                    model.Add(result);
+                }
+            }
+
+            return View(model);
         }
 
         [Route("people/details/{emailhash}", HttpVerbs.Get)]
@@ -30,21 +40,7 @@
                 return View("404");
             }
 
-            try
-            {
-                var url = string.Format("https://en.gravatar.com/{0}.json", emailhash);
-                var data = UTF8Encoding.UTF8.GetString((new WebClient()).DownloadData(url))
-                                       .Replace("{\"entry\":[", string.Empty)
-                                       .TrimEnd('}')
-                                       .TrimEnd(']');
-                model.GProfile = DynamicJson.Parse(data);
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(ex.Message);
-                model.GProfile = null;
-            }
-            
+            model.GProfile = Gravatar.Profile(emailhash);
 
             return View(model);
         }

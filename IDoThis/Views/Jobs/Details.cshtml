@@ -1,6 +1,7 @@
 ﻿@model dynamic
 @{
     ViewBag.Title = Model.Title;
+    bool isFilled = Model.Expires == DateTime.MinValue;
 }
 @section Styles {
     <style>
@@ -18,12 +19,22 @@
     {
         <div class="btn-toolbar">
             <div class="btn-group">
+            @if (isFilled) {
+                <a class="btn" disabled rel="tooltip" title="Position is Filled">
+                    <i class="icon-check"></i> Filled
+                </a>
+                <a class="btn" disabled rel="tooltip" title="Position is Filled">
+                    <i class="icon-download-alt"></i> Save
+                </a>
+            }
+            else {
                 <a class="btn" href="/jobs/apply/@Model.Slug">
                     <i class="icon-check"></i> Apply
                 </a>
                 <a class="btn" href="/jobs/save/@Model.Slug">
                     <i class="icon-download-alt"></i> Save
                 </a>
+            }
                 <a class="btn" href="mailto://?subject=@Model.Title - IDoThis Job Listing&body=@Model.Blurb\nhttp://localhost:52148/jobs/details/@Model.Slug" target="_blank">
                     <i class="icon-envelope"></i> Mail
                 </a>
@@ -45,9 +56,12 @@
             <dt>Where</dt>
             <dd>@Model.Location</dd>
             <dt>Posted</dt>
-            <dd>@Model.Posted.ToShortDateString()</dd>
+            <dd>@Model.Posted.ToLongDateString()</dd>
+            @if (!isFilled)
+            {
             <dt>Expires</dt>
             <dd>@((Model.Expires - DateTime.UtcNow).Days) days</dd>
+            }
         </dl>
     </div>
     <div class="span8">

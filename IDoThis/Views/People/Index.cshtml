@@ -1,4 +1,4 @@
-﻿@model dynamic
+﻿@model List<dynamic>
 @using IDoThis.Helpers
 @{
     ViewBag.Title = "People";
@@ -6,26 +6,21 @@
     {
         ViewBag.Title = "Search Results for '" + Request.QueryString["q"] + "'";
     }
-    int n = 0;
 }
 
 
-<div class="row">
+
+
+<ul class="thumbnails">
 @foreach (dynamic item in Model)
 {
-    n++;
-    <div class="span3">
-        <h3><a href="/people/details/@(((string)item.Username).MD5Hash())">@item.DisplayName</a></h3>
-    </div>
+    var hash = ((string)item.emails[0].value).MD5Hash();
+    
+    <li class="span2">
+        <a class="thumbnail" href="/people/details/@hash" style="text-align:center; text-decoration:none">
+            <img src="http://www.gravatar.com/avatar/@(hash)?s=220&d=mm" >
+            <h4>@item.name.givenName @item.name.familyName</h4>
+        </a>
+    </li>
 }
-@if (n == 0)
-{
-        <div class="span6 offset3">
-            <legend>No Results</legend>
-            <p>
-                There doesn't seem to be any jobs matching <em>@(Request.QueryString["q"])</em>.
-                More terms refine the results further, so try removing terms or varying the terms
-                you use.</p>
-        </div>
-}
-</div>
+</ul>

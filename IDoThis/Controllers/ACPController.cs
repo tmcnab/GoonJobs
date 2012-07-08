@@ -1,7 +1,6 @@
 ﻿namespace IDoThis.Controllers
 {
     using System;
-    using System.Dynamic;
     using System.Linq;
     using System.Web.Mvc;
     using AttributeRouting.Web.Mvc;
@@ -10,6 +9,11 @@
     [Authorize(Users = "tristan@seditious-tech.com")]
     public class ACPController : Controller
     {
+        public ActionResult Index()
+        {
+            return View();
+        }
+
         [Route("acp/activations", HttpVerbs.Get)]
         public ActionResult Activations()
         {

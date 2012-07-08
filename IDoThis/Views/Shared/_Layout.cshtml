@@ -16,6 +16,10 @@
             GoonJobs &copy; <a href="http://seditious-tech.com">Seditious Technologies</a> 2011-@DateTime.Now.Year | 
             <a href="/jobs/rss">Newest Jobs RSS Firehose</a> |
             <a href="/legal">Legal</a></small>
+        @if (User.Identity.Name == "tristan@seditious-tech.com")
+        {
+            @:| <a href="/acp">ACP</a>
+        }
         </p>
     </footer>
     <script type="text/javascript" src="/Scripts/ui/jquery-1.7.2.js"></script>

@@ -106,7 +106,9 @@
     </Compile>
     <Compile Include="Helpers\GravatarHelpers.cs" />
     <Compile Include="Models\ActivationCode.cs" />
+    <Compile Include="Models\Gravatar.cs" />
     <Compile Include="Models\JobListing.cs" />
+    <Compile Include="Models\SavedListings.cs" />
     <Compile Include="Models\UserProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -184,6 +186,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\People\Details.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\ACP\Index.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

@@ -15,18 +15,13 @@
 
             dynamic model = new ExpandoObject();
             model.Listings = JobListing.DAL.Listings.FindAllByUser(User.Identity.Name);
-            model.Applications = new List<dynamic>();
-            model.Saved = new List<dynamic>();
-            model.HasPaid = profile.HasPaid;
+            var savedList = new List<dynamic>();
+            foreach (dynamic item in SavedListing.DAL.SavedListingsForUser(User).ToList())
+            {
+                savedList.Add(JobListing.DAL.Listings.FindBySlug(item.Slug));  
+            }
+            model.Saved = savedList;
             model.Profile = profile;
-
-            foreach (var item in profile.AppliedFor) {
-                model.Applications.Add(JobListing.DAL.Listings.FindBySlug(item).JobTitle);
-            }
-
-            foreach (var item in profile.Saved) {
-                model.Applications.Add(JobListing.DAL.Listings.FindBySlug(item).JobTitle);
-            }
 
             return View(model);
         }
@@ -39,8 +34,7 @@
             {
                 dynamic profile = User.Profile();
                 profile.IsHirable = model.IsHirable;
-                profile.Description = model.Description;
-                profile.ShowcaseUrl = model.ShowcaseUrl;
+                profile.Description = model.Pitch;
                 UserProfile.DAL.UserProfiles.Update(profile);
             }
             return RedirectToAction("Index");

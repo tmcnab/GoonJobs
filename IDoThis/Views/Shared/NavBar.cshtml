@@ -1,5 +1,4 @@
 ﻿@using IDoThis.Models
-
 <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
         <div class="container">
@@ -34,7 +33,7 @@
                 {
                     <li>
                         <a href="/profile">
-                            @User.Identity.Name <span class="label">@User.Profile().Saved.Count</span>
+                            @User.Identity.Name <span class="label">@User.SavedListingCount()</span>
                         </a>
                     </li>
                 }

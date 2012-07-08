@@ -136,7 +136,8 @@
         public string full_name { get; set; }
 
         [Required]
-        [StringLength(5000)]
+        [AllowHtml]
+        [StringLength(10000)]
         public string  application_letter { get; set; }
     }
 }
