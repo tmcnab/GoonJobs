@@ -1,5 +1,6 @@
 ﻿@model dynamic
 @using IDoThis.Helpers
+@using IDoThis.Models
 @{
     ViewBag.Title = Model.GProfile.name.givenName + " " + Model.GProfile.name.familyName;
 }
@@ -51,18 +52,26 @@
     </div>
     <div class="span8 offset1">
         <legend>@Model.GProfile.name.givenName @Model.GProfile.name.familyName
-
         <div class="btn-toolbar pull-right">
             <div class="btn-group">
-                <a class="btn" rel="tooltip" title="Contact this Person" href="/people/contact/@Model.SProfile.UsernameHashed">
+            @if (User.Identity.IsAuthenticated && User.Profile().HasPaid)
+            {
+                <a class="btn" rel="tooltip" title="Contact this Person" href="mailto://@Model.SProfile.Username?subject=Inquiry%20(GoonJobs)" target="_blank">
                     <i class="icon-envelope"></i> Contact
                 </a>
-                <a class="btn" rel="tooltip" title="Share this Contact via Email" href="/people/share/@Model.SProfile.UsernameHashed">
+                <a class="btn" rel="tooltip" title="Share this Contact via Email" href="@MailtoHelpers.ProfileMailto(Model.GProfile)" target="_blank">
                     <i class="icon-share"></i> Share
                 </a>
                 <a class="btn" rel="tooltip" title="Flag as Inappropriate" data-toggle="modal" data-target="#FlagModal">
                     <i class="icon-flag"></i> Flag
                 </a>
+            }
+            else
+            {
+                <a class="btn" rel="tooltip" title="Upgraded account required for actions" href="/profile/upgrade">
+                    <i class="icon-lock"></i> Upgrade Account
+                </a>
+            }
             </div>
         </div>
         </legend>

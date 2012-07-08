@@ -1,4 +1,5 @@
 ﻿@model dynamic
+@using IDoThis.Models
 @{
     ViewBag.Title = Model.Title;
     bool isFilled = Model.Expires == DateTime.MinValue;
@@ -13,46 +14,10 @@
 
 
 <div class="row">
-    <div class="span4">
-        <legend>@Model.Who</legend>
-    @if (Request.IsAuthenticated)
-    {
-        <div class="btn-toolbar">
-            <div class="btn-group">
-            @if (isFilled) {
-                <a class="btn" disabled rel="tooltip" title="Position is Filled">
-                    <i class="icon-check"></i> Filled
-                </a>
-                <a class="btn" disabled rel="tooltip" title="Position is Filled">
-                    <i class="icon-download-alt"></i> Save
-                </a>
-            }
-            else {
-                <a class="btn" href="/jobs/apply/@Model.Slug">
-                    <i class="icon-check"></i> Apply
-                </a>
-                <a class="btn" href="/jobs/save/@Model.Slug">
-                    <i class="icon-download-alt"></i> Save
-                </a>
-            }
-                <a class="btn" href="mailto://?subject=@Model.Title - IDoThis Job Listing&body=@Model.Blurb\nhttp://localhost:52148/jobs/details/@Model.Slug" target="_blank">
-                    <i class="icon-envelope"></i> Mail
-                </a>
-                <a class="btn" href="/jobs/report/@Model.Slug">
-                    <i class="icon-flag"></i> Flag
-                </a>
-            </div>
-        </div>
-    } else {
-        <div class="btn-toolbar">
-            <div class="btn-group">
-                <a class="btn" href="/auth">
-                    <i class="icon-lock"></i> Sign In to Apply
-                </a>
-            </div>
-        </div>
-    }
+    <div class="span3" style="margin-top:55px">
         <dl>
+            <dt>Who</dt>
+            <dd>@Model.Who</dd>
             <dt>Where</dt>
             <dd>@Model.Location</dd>
             <dt>Posted</dt>
@@ -64,9 +29,52 @@
             }
         </dl>
     </div>
-    <div class="span8">
-        <legend>@Model.Title</legend>
- 
+    <div class="span9">
+        <legend>@Model.Title 
+        @if (Request.IsAuthenticated) {
+            <div class="btn-toolbar pull-right">
+                <div class="btn-group">
+                @if (isFilled) {
+                    <a class="btn" disabled rel="tooltip" title="Position is Filled">
+                        <i class="icon-check"></i> Filled
+                    </a>
+                    <a class="btn" disabled rel="tooltip" title="Position is Filled">
+                        <i class="icon-download-alt"></i> Save
+                    </a>
+                }
+                else if (User.Profile().HasPaid) {
+                    <a class="btn" rel="tooltip" title="Send an Email to Apply" href="mailto:@Model.User?subject=@Model.Title - GoonJobs Application">
+                        <i class="icon-check"></i> Apply
+                    </a>
+                    <a class="btn" rel="tooltip" title="Save for Later" href="/jobs/save/@Model.Slug">
+                        <i class="icon-download-alt"></i> Save
+                    </a>
+                }
+                else {
+                    <a class="btn" rel="tooltip" title="Upgrade Account for More Actions" href="/profile/upgrade">
+                        <i class="icon-lock"></i> Upgrade Required 
+                    </a>
+                }
+                    <a class="btn" rel="tooltip" title="Mail Listing to Someone" href="mailto://?subject=@Model.Title - GoonJobs&body=Who: @(Model.Who)%0A%0AWhere: @(Model.Location)%0A%0AAbout: @(Model.Blurb)%0A%0ALink:%20http://goonjobs.apphb.com/jobs/details/@Model.Slug" target="_blank">
+                        <i class="icon-envelope"></i> Mail
+                    </a>
+                    <a class="btn" rel="tooltip" title="Report as Inappropriate" href="/jobs/report/@Model.Slug">
+                        <i class="icon-flag"></i> Flag 
+                    </a>
+                </div>
+            </div>
+        } 
+        else {
+            <div class="btn-toolbar">
+                <div class="btn-group">
+                    <a class="btn" href="/auth">
+                        <i class="icon-lock"></i> Sign In
+                    </a>
+                </div>
+            </div>
+        }
+        </legend>
         @Html.Raw(Model.Body)
     </div>
 </div>
+

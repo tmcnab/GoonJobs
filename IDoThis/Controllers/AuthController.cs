@@ -3,6 +3,7 @@
     using System.Web.Mvc;
     using System.Web.Security;
     using IDoThis.Models;
+    using System;
     using NBrowserID;
 
     public class AuthController : Controller
@@ -38,7 +39,7 @@
                     }
                     else
                     {
-                        profile.UpdateLastLogin();
+                        profile.LastLogin = DateTime.UtcNow;
                         UserProfile.DAL.UserProfiles.Update(profile);
                     }
                 }

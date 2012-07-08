@@ -77,40 +77,40 @@
 
         #endregion
 
-        #region Applying for Jobs
+        //#region Applying for Jobs
 
-        [Route("jobs/apply/{slug}", HttpVerbs.Get)]
-        public ActionResult Apply(string slug)
-        {
-            var model = JobListing.DAL.Listings.FindBySlug(slug);
-            if (model == null) {
-                return View("404");
-            }
-            else {
-                ViewBag.Errors = false;
-                return View(model); 
-            }
-        }
+        //[Route("jobs/apply/{slug}", HttpVerbs.Get)]
+        //public ActionResult Apply(string slug)
+        //{
+        //    var model = JobListing.DAL.Listings.FindBySlug(slug);
+        //    if (model == null) {
+        //        return View("404");
+        //    }
+        //    else {
+        //        ViewBag.Errors = false;
+        //        return View(model); 
+        //    }
+        //}
 
-        [Route("jobs/apply/{slug}", HttpVerbs.Post)]
-        public ActionResult Apply(string slug, JobApplicationViewModel model)
-        {
-            var job = JobListing.DAL.Listings.FindBySlug(slug);
-            if (job == null) {
-                return View("404");
-            }
+        //[Route("jobs/apply/{slug}", HttpVerbs.Post)]
+        //public ActionResult Apply(string slug, JobApplicationViewModel model)
+        //{
+        //    var job = JobListing.DAL.Listings.FindBySlug(slug);
+        //    if (job == null) {
+        //        return View("404");
+        //    }
 
-            if (ModelState.IsValid) {
-                return Redirect("/profile");
-            }
-            else
-            {
-                ViewBag.Errors = true;
-                return View(job);
-            }
-        }
+        //    if (ModelState.IsValid) {
+        //        return Redirect("/profile");
+        //    }
+        //    else
+        //    {
+        //        ViewBag.Errors = true;
+        //        return View(job);
+        //    }
+        //}
 
-        #endregion
+        //#endregion
 
         #region Saving Jobs for Later
 
