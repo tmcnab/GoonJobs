@@ -21,13 +21,13 @@
 <div class="tabbable">
     <ul class="nav nav-tabs">
         <li class="active">
+            <a href="#profile" data-toggle="tab">My Profile</a>
+        </li>
+        <li>
             <a href="#saved" data-toggle="tab">Saved Jobs</a>
         </li>
         <li>
             <a href="#listings" data-toggle="tab">Advertised Listings</a>
-        </li>
-        <li>
-            <a href="#profile" data-toggle="tab">My Profile</a>
         </li>
         <li class="pull-right">
             <a href="/auth/signout">Sign Out</a>
@@ -42,7 +42,7 @@
     }
     </ul>
     <div class="tab-content">
-        <div class="tab-pane active fade in" id="saved">
+        <div class="tab-pane fade" id="saved">
             <table class="table" style="width: 99%">
                 <thead>
                     <tr>
@@ -125,7 +125,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="tab-pane fade" id="profile">
+        <div class="tab-pane fade active in" id="profile">
             <form class="form-horizontal" method="post" action="/profile">
                 <div class="control-group">
                     <label class="control-label">Hirability</label>
@@ -154,7 +154,7 @@
                 <div class="control-group">
                     <label class="control-label">Pitch Yourself</label>
                     <div class="controls">
-                        @Html.TextArea("Pitch", (string)Model.Profile.Description, new { @class = "span9", rows = "20" })
+                        @Html.TextArea("Pitch", (string)Model.Profile.Description, new { @class = "span9", rows = 16 })
                     </div>
                 </div>
 

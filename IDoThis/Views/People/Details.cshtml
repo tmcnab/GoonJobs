@@ -10,7 +10,7 @@
     </script>
 }
 <div class="row">
-    <div class="span3">
+    <div class="span3" style="margin-top:30px;">
         <div class="row">
             <div class="span2" style="margin-left:0">
                 <div class="thumbnail" style="margin-right:10px">
@@ -19,7 +19,7 @@
             </div>
     
             @if (Model.GProfile.IsDefined("aboutMe")) {
-            <p style="text-align:justify"><small>@Model.GProfile.aboutMe</small></p>
+            <p><small>@Model.GProfile.aboutMe</small></p>
             }
         
             <div class="span4" style="margin-left:0">
@@ -54,12 +54,21 @@
         <legend>@Model.GProfile.name.givenName @Model.GProfile.name.familyName
         <div class="btn-toolbar pull-right">
             <div class="btn-group">
-            @if (User.Identity.IsAuthenticated && User.Profile().HasPaid)
+            @if (User.Identity.IsAuthenticated)
             {
-                <a class="btn" rel="tooltip" title="Contact this Person" href="mailto://@Model.SProfile.Username?subject=Inquiry%20(GoonJobs)" target="_blank">
+                if (User.Profile().HasPaid)
+                {
+                <a class="btn" rel="tooltip" title="Contact this Person" href="mailto:@Model.SProfile.Username?subject=Inquiry%20(GoonJobs)" target="_blank">
                     <i class="icon-envelope"></i> Contact
                 </a>
-                <a class="btn" rel="tooltip" title="Share this Contact via Email" href="@MailtoHelpers.ProfileMailto(Model.GProfile)" target="_blank">
+                }
+                else
+                {
+                <a class="btn" rel="tooltip" title="Upgrade to Contact" href="/profile/upgrade">
+                    <i class="icon-lock"></i> Upgrade
+                </a>
+                }
+                <a class="btn" rel="tooltip" title="Share this Person via Email" href="@MailtoHelpers.ProfileMailto(Model.GProfile)" target="_blank">
                     <i class="icon-share"></i> Share
                 </a>
                 <a class="btn" rel="tooltip" title="Flag as Inappropriate" data-toggle="modal" data-target="#FlagModal">
@@ -68,8 +77,8 @@
             }
             else
             {
-                <a class="btn" rel="tooltip" title="Upgraded account required for actions" href="/profile/upgrade">
-                    <i class="icon-lock"></i> Upgrade Account
+                <a class="btn" rel="tooltip" title="Sign In for More Actions" href="/auth">
+                    <i class="icon-lock"></i> Sign In
                 </a>
             }
             </div>

@@ -9,6 +9,8 @@
 
     public class PeopleController : Controller
     {
+        #region /people
+
         [Route("people/", HttpVerbs.Get)]
         [Route("people/list/{?pg}", HttpVerbs.Get)]
         public ActionResult Index(int pg = 0, string q = "")
@@ -34,6 +36,10 @@
             return View(model);
         }
 
+        #endregion
+
+        #region /people/details/#
+
         [Route("people/details/{emailhash}", HttpVerbs.Get)]
         public ActionResult Details(string emailhash)
         {
@@ -48,71 +54,31 @@
             return View(model);
         }
 
-        #region Contacting People
-
-        [Authorize]
-        [Route("people/contact/{emailHash}", HttpVerbs.Get)]
-        public ActionResult Contact(string emailHash)
-        {
-            var recipientsProfile = UserProfile.DAL.UserProfiles.FindByUsernameHashed(emailHash);
-            if (recipientsProfile == null   || 
-                recipientsProfile.IsBanned  || 
-               !recipientsProfile.IsHirable) {
-                return View("404");
-            }
-
-            var sendersProfile = User.Profile();
-            if (!sendersProfile.HasPaid) {
-                return View("402");
-            }
-
-            ViewBag.Recipient = recipientsProfile;
-            return View();
-        }
-
-        [Authorize]
-        [Route("people/contact/{emailHash}", HttpVerbs.Post)]
-        public ActionResult Contact(string emailHash, PeopleContactViewModel model)
-        {
-            var recipientsProfile = UserProfile.DAL.UserProfiles.FindByUsernameHashed(emailHash);
-            if (recipientsProfile == null  ||
-                recipientsProfile.IsBanned ||
-               !recipientsProfile.IsHirable) {
-                return View("404");
-            }
-
-            var sendersProfile = User.Profile();
-            if (!sendersProfile.HasPaid) {
-                return View("402");
-            }
-
-            if (ModelState.IsValid)
-            {
-                Email.Send(recipientsProfile.Username,
-                    sendersProfile.Username,
-                    "Contact / Inquiry - GoonJobs",
-                    model.Body);
-
-                TempData["Message"] = "Message sent!";
-                return RedirectToAction("Index", "Profile");
-            }
-            else
-            {
-                ViewBag.Recipient = recipientsProfile;
-                return View(model);
-            }
-        }
-
         #endregion
 
-        #region View Models 
-        public class PeopleContactViewModel
+        #region /people/flag/#
+
+        [Authorize]
+        [Route("people/flag/{hash}", HttpVerbs.Get)]
+        public ActionResult Flag(string hash)
         {
-            [AllowHtml]
-            [Required]
-            [StringLength(10000)]
-            public string Body { get; set; }
+            var issue = new FlaggedIssue(hash, true, User);
+            FlaggedIssue.DAL.Issues.Insert(issue);
+            return RedirectToAction("Index");
         }
+
         #endregion
     }
+
+    #region View Models
+
+    public class PeopleContactViewModel
+    {
+        [AllowHtml]
+        [Required]
+        [StringLength(10000)]
+        public string Body { get; set; }
+    }
+
+    #endregion
 }

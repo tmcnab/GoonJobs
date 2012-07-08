@@ -1,9 +1,9 @@
 ﻿namespace IDoThis.Controllers
 {
+    using System;
     using System.Web.Mvc;
     using System.Web.Security;
     using IDoThis.Models;
-    using System;
     using NBrowserID;
 
     public class AuthController : Controller

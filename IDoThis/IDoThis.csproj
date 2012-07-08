@@ -111,6 +111,7 @@
     <Compile Include="Helpers\MailtoHelpers.cs" />
     <Compile Include="Models\ActivationCode.cs" />
     <Compile Include="Models\Email.cs" />
+    <Compile Include="Models\FlaggedIssue.cs" />
     <Compile Include="Models\Gravatar.cs" />
     <Compile Include="Models\JobListing.cs" />
     <Compile Include="Models\SavedListings.cs" />
@@ -164,9 +165,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Jobs\Details.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Jobs\Apply.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\404.cshtml" />

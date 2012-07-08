@@ -58,16 +58,16 @@
                     <a class="btn" rel="tooltip" title="Mail Listing to Someone" href="mailto://?subject=@Model.Title - GoonJobs&body=Who: @(Model.Who)%0A%0AWhere: @(Model.Location)%0A%0AAbout: @(Model.Blurb)%0A%0ALink:%20http://goonjobs.apphb.com/jobs/details/@Model.Slug" target="_blank">
                         <i class="icon-envelope"></i> Mail
                     </a>
-                    <a class="btn" rel="tooltip" title="Report as Inappropriate" href="/jobs/report/@Model.Slug">
+                    <a class="btn" rel="tooltip" title="Report as Inappropriate" data-toggle="modal" data-target="#FlagModal">
                         <i class="icon-flag"></i> Flag 
                     </a>
                 </div>
             </div>
         } 
         else {
-            <div class="btn-toolbar">
+            <div class="btn-toolbar pull-right">
                 <div class="btn-group">
-                    <a class="btn" href="/auth">
+                    <a class="btn" href="/auth" rel="tooltip" title="Sign In for More Options">
                         <i class="icon-lock"></i> Sign In
                     </a>
                 </div>
@@ -78,3 +78,29 @@
     </div>
 </div>
 
+
+<div id="FlagModal" class="modal fade">
+    <div class="modal-header">
+        <button class="close" data-dismiss="modal">&times;</button>
+        <h3>Report Listing</h3>
+    </div>
+    <div class="modal-body">
+        <p>You are about to report <strong>@Model.Who</strong> for 
+           inappropriate content. This can include, but is not limited to:</p>
+        <ul>
+            <li>Pornography</li>
+            <li>Spam or advertising</li>
+            <li>Malware distribution</li>
+        </ul>
+        <p>Abusing the reporting system is a violation itself and repeated false reports will
+           result in a ban.</p>
+    </div>
+    <div class="modal-footer">
+        <a class="btn btn-danger pull-left" href="/jobs/flag/@Model.Slug">
+            <i class="icon-warning-sign icon-white"></i> Report 
+        </a>
+        <a data-dismiss="modal" class="btn btn-primary">
+            Close
+        </a>
+    </div>
+</div>

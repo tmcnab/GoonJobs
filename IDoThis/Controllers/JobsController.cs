@@ -10,6 +10,8 @@
 
     public class JobsController : Controller
     {
+        #region /jobs
+
         [Route("jobs/", HttpVerbs.Get)]
         [Route("jobs/list/{?pg}/", HttpVerbs.Get)]
         public ActionResult Index(int pg = 0, string q = "")
@@ -30,7 +32,9 @@
             return View(model.Skip(pg * ViewBag.NPerPage).Take(ViewBag.NPerPage));
         }
 
-        #region Adding a Job Listing
+        #endregion
+
+        #region /jobs/add
 
         [Authorize]
         [Route("jobs/add", HttpVerbs.Get)]
@@ -61,7 +65,7 @@
 
         #endregion
 
-        #region Job Listing Details
+        #region /jobs/details/#
 
         [Route("jobs/details/{slug}", HttpVerbs.Get)]
         public ActionResult Details(string slug)
@@ -77,42 +81,7 @@
 
         #endregion
 
-        //#region Applying for Jobs
-
-        //[Route("jobs/apply/{slug}", HttpVerbs.Get)]
-        //public ActionResult Apply(string slug)
-        //{
-        //    var model = JobListing.DAL.Listings.FindBySlug(slug);
-        //    if (model == null) {
-        //        return View("404");
-        //    }
-        //    else {
-        //        ViewBag.Errors = false;
-        //        return View(model); 
-        //    }
-        //}
-
-        //[Route("jobs/apply/{slug}", HttpVerbs.Post)]
-        //public ActionResult Apply(string slug, JobApplicationViewModel model)
-        //{
-        //    var job = JobListing.DAL.Listings.FindBySlug(slug);
-        //    if (job == null) {
-        //        return View("404");
-        //    }
-
-        //    if (ModelState.IsValid) {
-        //        return Redirect("/profile");
-        //    }
-        //    else
-        //    {
-        //        ViewBag.Errors = true;
-        //        return View(job);
-        //    }
-        //}
-
-        //#endregion
-
-        #region Saving Jobs for Later
+        #region /jobs/save/# & /jobs/unsave/#
 
         [Authorize]
         [Route("jobs/save/{slug}", HttpVerbs.Get)]
@@ -132,7 +101,7 @@
 
         #endregion
 
-        #region Delisting Jobs
+        #region /jobs/delist/#
 
         [Authorize]
         [Route("jobs/delist/{slug}", HttpVerbs.Get)]
@@ -153,7 +122,16 @@
 
         #endregion
 
-        #region RSS
+        [Authorize]
+        [Route("jobs/flag/{slug}", HttpVerbs.Get)]
+        public ActionResult Flag(string slug)
+        {
+            var newIssue = new FlaggedIssue(slug, false, User);
+            FlaggedIssue.DAL.Issues.Insert(newIssue);
+            return RedirectToAction("Index");
+        }
+
+        #region /jobs/rss
 
         [OutputCache(Duration = 60)]
         [Route("jobs/rss", HttpVerbs.Get)]
