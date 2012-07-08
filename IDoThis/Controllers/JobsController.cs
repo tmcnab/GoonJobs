@@ -122,6 +122,8 @@
 
         #endregion
 
+        #region /jobs/flag/#
+
         [Authorize]
         [Route("jobs/flag/{slug}", HttpVerbs.Get)]
         public ActionResult Flag(string slug)
@@ -130,6 +132,8 @@
             FlaggedIssue.DAL.Issues.Insert(newIssue);
             return RedirectToAction("Index");
         }
+
+        #endregion
 
         #region /jobs/rss
 
@@ -140,7 +144,7 @@
             var model = new List<SyndicationItem>();
             foreach (var item in JobListing.DAL.Listings.All().OrderByPostedDescending())
             {
-                model.Add(new SyndicationItem(item.Title, item.Blurb, new Uri("http://goonjobs.apphb.com/jobs/details/" + item.Slug)));
+                model.Add(new SyndicationItem(item.Title, item.Body, new Uri("http://goonjobs.apphb.com/jobs/details/" + item.Slug)));
             }
 
             var feed = new SyndicationFeed("GoonJobs Firehose", "Newest job listings from GoonJobs", new Uri("http://goonjobs.apphb.com/jobs/rss"), model);

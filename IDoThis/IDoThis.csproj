@@ -110,7 +110,6 @@
     <Compile Include="Helpers\GravatarHelpers.cs" />
     <Compile Include="Helpers\MailtoHelpers.cs" />
     <Compile Include="Models\ActivationCode.cs" />
-    <Compile Include="Models\Email.cs" />
     <Compile Include="Models\FlaggedIssue.cs" />
     <Compile Include="Models\Gravatar.cs" />
     <Compile Include="Models\JobListing.cs" />
