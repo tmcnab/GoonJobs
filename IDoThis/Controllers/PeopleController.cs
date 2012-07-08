@@ -13,12 +13,14 @@
         public ActionResult Index(int pg = 0, string q = "")
         {
             dynamic profiles = UserProfile.DAL.PublicProfiles
-                                          .OrderByLastLoginDescending()
-                                          .Skip(pg * 18)
-                                          .Take(18);
+                                          .OrderByLastLoginDescending();
+            
+            ViewBag.TotalCount = profiles.ToList().Count;
+            ViewBag.PageSize = 18;
+            ViewBag.CurrentPage = pg;
 
             var model = new List<dynamic>();
-            foreach (var p in profiles)
+            foreach (var p in profiles.Skip(pg * 18).Take(18))
             {
                 var result = Gravatar.Profile(p.UsernameHashed);
                 if(result != null && result.IsDefined("name") 

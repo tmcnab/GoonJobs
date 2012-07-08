@@ -1,5 +1,6 @@
 ﻿@model List<dynamic>
 @using IDoThis.Helpers
+@using MvcPaging
 @{
     ViewBag.Title = "People";
     if (!string.IsNullOrWhiteSpace(Request.QueryString["q"]))
@@ -7,10 +8,24 @@
         ViewBag.Title = "Search Results for '" + Request.QueryString["q"] + "'";
     }
 }
+@section Scripts {
+    <script type="text/javascript">
+        $('a[href="/people"]').parent().addClass('active');
+    </script>
+}
 
+<form class="form-inline" method="get" action="/people" style="text-align: center; margin-bottom: 50px">
+    <div class="control-group">
+        <div class="controls">
+            <div class="input-prepend input-append">
+                <span class="add-on"><i class="icon-search"></i></span><input type="search" name="q" class="span10" value="@(Request.QueryString["q"])" placeholder="Search" /><button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </div>
+    </div>
+</form>
 
-
-
+@if (Model.Count != 0)
+{
 <ul class="thumbnails">
 @foreach (dynamic item in Model)
 {
@@ -24,3 +39,22 @@
     </li>
 }
 </ul>
+}
+else
+{
+<div class="row">
+    <div class="span6 offset3">
+        <legend>No Results</legend>
+        <p>It doesn't seem like there are any people.</p>
+    </div>
+</div>
+}
+
+
+<div style="text-align:center">
+@(Html.Pager((int)ViewBag.PageSize, (int)ViewBag.CurrentPage, (int)ViewBag.TotalCount)
+          .Options(o => o.AddRouteValue("q", Request.QueryString["q"])
+                         .DisplayTemplate("BootstrapPagination")
+                  )
+)
+</div>
