@@ -13,7 +13,7 @@
                 </span>
             </li>
             <li>
-                <a href="/acp/activations" class="dotted">Activations</a>
+                <a href="/acp/activations" class="dotted"><strong>Activations</strong></a>
             </li>
         </ul>
     </div>
@@ -37,7 +37,8 @@
         <tr>
             <th style="width:10%; text-align:center">Code</th>
             <th style="text-align:center">User</th>
-            <th style="width:27%; text-align:center">Activated (UTC)</th>
+            <th style="text-align:center" colspan="2">Activated (UTC)</th>
+            <th style="text-align:center" colspan="2">Activated (Local)</th>
         </tr>
     </thead>
     <tbody>
@@ -45,11 +46,36 @@
     {
         <tr>
             <td><code>@item.Code</code></td>
+
+
             <td>@item.Username</td>
-            <td style="text-align:right">@if (item.Activated != DateTime.MinValue)
-                {
-                    @(item.Activated.ToLongTimeString()) @:&nbsp; @(item.Activated.ToLongDateString())
-                }
+
+
+            <td style="width:10%;text-align:right">
+            @if (item.Activated != DateTime.MinValue)
+            {
+                @(item.Activated.ToLongTimeString())
+            }
+            </td>
+            <td style="width:20%; text-align:left">
+            @if (item.Activated != DateTime.MinValue) 
+            {
+                @(item.Activated.ToLongDateString())
+            }
+            </td>
+
+
+            <td style="width:10%;text-align:right">
+            @if (item.Activated != DateTime.MinValue)
+            {
+                @(item.Activated.ToLocalTime().ToLongTimeString())
+            }
+            </td>
+            <td style="width:20%;text-align:left">
+            @if (item.Activated != DateTime.MinValue)
+            {
+                @(item.Activated.ToLocalTime().ToLongDateString())
+            }
             </td>
         </tr>
     }

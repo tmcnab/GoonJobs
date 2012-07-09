@@ -103,6 +103,7 @@
     <Compile Include="Controllers\PeopleController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\Results\FeedResult.cs" />
+    <Compile Include="Controllers\StatusCodesController.cs" />
     <Compile Include="DynamicJson.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -144,7 +145,7 @@
     <Content Include="Scripts\util\jquery.validate.unobtrusive.js" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\500.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>

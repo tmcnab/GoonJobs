@@ -1,6 +1,6 @@
 ﻿@model dynamic
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Control Panel";
 }
 
 <ul class="breadcrumb">
@@ -15,7 +15,7 @@
             var activations_total = Model.Activations.All().ToList().Count;
             var activations_unused = Model.Activations.FindAllByActivated(DateTime.MinValue).ToList().Count;
             var activations_used = activations_total - activations_unused;
-            double activations_percent = (double)activations_used / (double)Model.Profiles.All().ToList().Count;
+            double activations_percent = ((double)activations_used / (double)Model.Profiles.All().ToList().Count)*100;
         }
 
         <table class="table table-condensed" style="margin-bottom:0">
