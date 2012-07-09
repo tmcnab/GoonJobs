@@ -18,6 +18,17 @@
             return View(model);
         }
 
+        #region /acp/users
+
+        public ActionResult Users()
+        {
+            dynamic model = new ExpandoObject();
+
+            return View();
+        }
+
+        #endregion
+
         #region /acp/activations
 
         [Route("acp/activations", HttpVerbs.Get)]
