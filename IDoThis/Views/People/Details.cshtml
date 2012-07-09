@@ -12,17 +12,19 @@
 <div class="row">
     <div class="span3" style="margin-top:30px;">
         <div class="row">
-            <div class="span2" style="margin-left:0">
+            <div class="span3">
                 <div class="thumbnail" style="margin-right:10px">
                     <img src="http://www.gravatar.com/avatar/@(Model.GProfile.hash)?s=220" alt="">
                 </div>
             </div>
     
+            <div class="span3" style="margin-top:10px">
             @if (Model.GProfile.IsDefined("aboutMe")) {
-            <p><small>@Model.GProfile.aboutMe</small></p>
+                <p><small>@Model.GProfile.aboutMe</small></p>
             }
+            </div>
         
-            <div class="span4" style="margin-left:0">
+            <div class="span3">
             @if(Model.GProfile.IsDefined("currentLocation")) {
                 <dl>
                     <dt>Location</dt>
