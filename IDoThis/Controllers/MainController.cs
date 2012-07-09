@@ -10,6 +10,7 @@
             var model = JobListing.DAL.Active
                                   .OrderByPostedDescending()
                                   .Take(6);
+
             return View(model);
         }
     }

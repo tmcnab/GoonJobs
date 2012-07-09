@@ -1,0 +1,57 @@
+﻿@model dynamic
+@{
+    ViewBag.Title = "Control Panel > Users";
+}
+
+<ul class="breadcrumb">
+    <li>
+        <a href="/acp" class="dotted">Control Panel</a>
+        <span class="divider"><i class="icon-chevron-right"></i></span>
+    </li>
+    <li>
+        <a href="/acp/users" class="dotted"><strong>Users</strong></a>
+    </li>
+</ul>
+
+
+<table class="table table-condensed">
+    <thead>
+        <tr>    
+            <th>Username</th>
+            <th style="text-align:center; width:10%">Paid</th> 
+            <th style="text-align:center; width:15%">Actions</th> </tr>
+    </thead>
+    <tbody>
+    @foreach (var user in Model.All())
+    {
+        <tr>
+            <td>@user.Username</td>
+            <td style="text-align:center">@if (user.HasPaid) {
+                    <i class="icon-ok"></i>
+                }
+                else {
+                    <i class="icon-remove"></i>
+                }
+            </td>
+            <td>
+                <div class="btn-group">
+                @if (user.IsBanned) {
+                    <a class="btn btn-mini" style="font-family:Monospace" href="/acp/users/unban/@user.Username">Unban</a>
+                }
+                else {
+                    <a class="btn btn-mini" style="font-family:Monospace" href="/acp/users/ban/@user.Username">&nbsp;Ban&nbsp;</a>    
+                }
+                @if (user.HasPaid) {
+                    <a class="btn btn-mini" style="font-family:Monospace" href="/acp/users/deactivate/@user.Username">Deactivate</a>
+                }
+                else
+                {
+                    <a class="btn btn-mini" style="font-family:Monospace" href="/acp/users/activate/@user.Username">&nbsp;Activate&nbsp;</a>    
+                }
+
+                </div>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

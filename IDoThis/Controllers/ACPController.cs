@@ -28,11 +28,11 @@
 
         #region /acp/users
 
+        [Route("acp/users", HttpVerbs.Get)]
         public ActionResult Users()
         {
-            dynamic model = new ExpandoObject();
-
-            return View();
+            dynamic model = UserProfile.DAL.UserProfiles;
+            return View(model);
         }
 
         #endregion
