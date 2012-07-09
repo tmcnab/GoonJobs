@@ -13,8 +13,11 @@
         public ActionResult Index()
         {
             dynamic model = new ExpandoObject();
+            
             model.Activations = ActivationCode.DAL.ActivationCodes;
-            model.Profiles = UserProfile.DAL.UserProfiles;
+            model.Users = UserProfile.DAL.UserProfiles;
+            model.Issues = FlaggedIssue.DAL.Issues;
+
             return View(model);
         }
 

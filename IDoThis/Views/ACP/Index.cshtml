@@ -15,7 +15,7 @@
             var activations_total = Model.Activations.All().ToList().Count;
             var activations_unused = Model.Activations.FindAllByActivated(DateTime.MinValue).ToList().Count;
             var activations_used = activations_total - activations_unused;
-            double activations_percent = ((double)activations_used / (double)Model.Profiles.All().ToList().Count)*100;
+            double activations_percent = ((double)activations_used / (double)Model.Users.All().ToList().Count)*100;
         }
 
         <table class="table table-condensed" style="margin-bottom:0">
@@ -32,6 +32,38 @@
 
         <div class="form-actions" style="text-align:center; margin-top:0">
             <a class="btn btn-info" href="/acp/activations/">Go to Activations &raquo;</a>
+        </div>
+    </div>
+
+    <div class="span4">
+        <legend style="margin-bottom: 0">Users</legend>
+        @{
+            var users_total = Model.Users.All().ToList().Count;
+            var users_banned = Model.Users.FindAllByIsBanned(true).ToList().Count;
+            var users_24hActive = Model.Users.All()
+                                       .Where(Model.Users.LastLogin > DateTime.UtcNow.AddDays(-1))
+                                       .ToList().Count;
+            var users_24hActivePercent = (((double)users_24hActive) / ((double)users_total)) * 100;
+            var users_1wkActive = Model.Users.All()
+                                       .Where(Model.Users.LastLogin > DateTime.UtcNow.AddDays(-7))
+                                       .ToList().Count;
+            var users_1wkActivePercent = (((double)users_1wkActive) / ((double)users_total)) * 100;
+            
+        }
+        <table class="table table-condensed" style="margin-bottom: 0">
+            <thead>
+                <tr> <th>Metric</th> <th style="width: 30%; text-align: right">Value</th> </tr>
+            </thead>
+            <tbody>
+                <tr> <td>Total</td>        <td style="text-align:right">@users_total</td>             </tr>
+                <tr> <td>Banned</td>       <td style="text-align:right">@users_banned</td>            </tr>
+                <tr> <td>Active (24h)</td> <td style="text-align:right">@users_24hActivePercent%</td> </tr>
+                <tr> <td>Active (1wk)</td> <td style="text-align:right">@users_1wkActivePercent%</td> </tr>
+
+            </tbody>
+        </table>
+        <div class="form-actions" style="text-align: center; margin-top: 0">
+            <a class="btn btn-info" href="/acp/users/">Go to Users &raquo;</a>
         </div>
     </div>
 </div>
