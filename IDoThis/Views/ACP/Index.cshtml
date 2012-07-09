@@ -34,7 +34,6 @@
             <a class="btn btn-info" href="/acp/activations/">Go to Activations &raquo;</a>
         </div>
     </div>
-
     <div class="span4">
         <legend style="margin-bottom: 0">Users</legend>
         @{
@@ -64,6 +63,36 @@
         </table>
         <div class="form-actions" style="text-align: center; margin-top: 0">
             <a class="btn btn-info" href="/acp/users/">Go to Users &raquo;</a>
+        </div>
+    </div>
+    <div class="span4">
+        <legend style="margin-bottom: 0">Issues</legend>
+        @{
+            var issues_total = Model.Issues.All().ToList().Count;
+            var issues_open = Model.Issues.FindAllByIsOpen(true).ToList().Count;
+            var issues_closed = Model.Issues.FindAllByIsOpen(false).ToList().Count;
+            var issues_complete = ((double)issues_closed / (double)issues_total) * 100;
+            var issues_last24h = Model.Issues.All()
+                                      .Where(Model.Issues.Reported > DateTime.UtcNow.AddDays(-1))
+                                      .ToList().Count;
+            if(double.IsNaN(issues_complete)) {
+                issues_complete = 100;
+            }
+            
+        }
+        <table class="table table-condensed" style="margin-bottom: 0">
+            <thead>
+                <tr> <th>Metric</th> <th style="width: 30%; text-align: right">Value</th> </tr>
+            </thead>
+            <tbody>
+                <tr> <td>Total</td>        <td style="text-align:right">@issues_total</td>     </tr>
+                <tr> <td>Open</td>         <td style="text-align:right">@issues_open</td>      </tr>
+                <tr> <td>Lodged (24h)</td> <td style="text-align:right">@issues_last24h</td>   </tr>
+                <tr> <td>Completion</td>   <td style="text-align:right">@issues_complete%</td> </tr>
+            </tbody>
+        </table>
+        <div class="form-actions" style="text-align: center; margin-top: 0">
+            <a class="btn btn-info" href="/acp/issues/">Go to Issues &raquo;</a>
         </div>
     </div>
 </div>
