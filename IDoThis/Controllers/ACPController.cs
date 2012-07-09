@@ -1,11 +1,11 @@
 ﻿namespace IDoThis.Controllers
 {
     using System;
+    using System.Dynamic;
     using System.Linq;
     using System.Web.Mvc;
     using AttributeRouting.Web.Mvc;
     using IDoThis.Models;
-    using System.Dynamic;
 
     [Authorize(Users = "tristan@seditious-tech.com")]
     public class ACPController : Controller
@@ -13,12 +13,12 @@
         public ActionResult Index()
         {
             dynamic model = new ExpandoObject();
-
-            model.ActivationsUsed = ActivationCode.DAL.Activated().ToList().Count;
-            model.ActivationsFree = ActivationCode.DAL.NonActivated().Count;
-
+            model.Activations = ActivationCode.DAL.ActivationCodes;
+            model.Profiles = UserProfile.DAL.UserProfiles;
             return View(model);
         }
+
+        #region /acp/activations
 
         [Route("acp/activations", HttpVerbs.Get)]
         public ActionResult Activations()
@@ -44,5 +44,6 @@
             return RedirectToAction("Activations");
         }
 
+        #endregion
     }
 }

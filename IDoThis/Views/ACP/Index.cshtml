@@ -3,21 +3,35 @@
     ViewBag.Title = "Index";
 }
 
-<legend>Administrator Control Panel</legend>
+<ul class="breadcrumb">
+    <li><a href="/acp" class="dotted"><strong>Control Panel</strong></a>
+</ul>
 
 <div class="row">
-    <div class="span3">
-        <legend>Activations</legend>
+    <div class="span4">
+        <legend style="margin-bottom:0">Activations</legend>
 
-        <table>
+        @{
+            var activations_total = Model.Activations.All().ToList().Count;
+            var activations_unused = Model.Activations.FindAllByActivated(DateTime.MinValue).ToList().Count;
+            var activations_used = activations_total - activations_unused;
+            double activations_percent = (double)activations_used / (double)Model.Profiles.All().ToList().Count;
+        }
+
+        <table class="table table-condensed" style="margin-bottom:0">
+            <thead>
+                <tr><th>Metric</th><th style="width:20%; text-align:right">Value</th></tr>
+            </thead>
             <tbody>
-                <tr><td>Activated Accounts</td><td>@Model.ActivationsUsed</td></tr>
-                <tr><td>Activation Codes Left</td><td>@Model.ActivationsFree</td></tr>
+                <tr> <td>Total</td>      <td style="text-align:right">@activations_total</td> </tr>
+                <tr> <td>Used</td>       <td style="text-align:right">@activations_used</td></tr>
+                <tr> <td>Available</td>  <td style="text-align:right">@activations_unused</td> </tr>
+                <tr> <td>Saturation</td> <td style="text-align:right">@activations_percent%</td> </tr>
             </tbody>
         </table>
 
-        <a class="btn btn-info" href="/acp/activations/">
-            Activations &raquo;
-        </a>
+        <div class="form-actions" style="text-align:center; margin-top:0">
+            <a class="btn btn-info" href="/acp/activations/">Go to Activations &raquo;</a>
+        </div>
     </div>
 </div>
