@@ -122,6 +122,26 @@
 
         #endregion
 
+        #region /jobs/relist/#
+
+        [Authorize]
+        [Route("/jobs/relist/{slug}", HttpVerbs.Get)]
+        public ActionResult Relist(string slug)
+        {
+            var model = JobListing.DAL.Listings.FindBySlugAndUser(slug, User.Identity.Name);
+            if (model == null) {
+                return View("404");
+            }
+            else
+            {
+                model.Expires = DateTime.UtcNow.AddDays(60);
+                JobListing.DAL.Listings.Update(model);
+                return RedirectToAction("Index", "Profile");
+            }
+        }
+
+        #endregion
+
         #region /jobs/flag/#
 
         [Authorize]

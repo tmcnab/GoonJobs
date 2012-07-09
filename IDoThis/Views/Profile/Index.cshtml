@@ -94,7 +94,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                @foreach (dynamic item in Model.Listings)
+                @foreach (dynamic item in Model.Listings.OrderByExpiresDescending())
                 {
                     <tr>
                         <td><a class="dotted" href="/jobs/details/@item.Slug">@item.Title</a></td>
@@ -108,16 +108,22 @@
                             @((item.Expires - DateTime.UtcNow).Days) @:days
                         }
                         </td>
-                        <td>
+                        <td style="text-align:center">
                         @if (item.Expires != DateTime.MinValue)
                         {
-                            <a class="btn btn-mini" href="/jobs/delist/@item.Slug">
-                                <i class="icon-ok"></i>
+                            <a class="btn btn-mini btn-primary" href="/jobs/delist/@item.Slug" rel="tooltip" title="Click to Mark Job Filled" data-placement="right">
+                                <i class="icon-ok icon-white"></i>
                             </a>   
+                        }
+                        else if (item.Expires > DateTime.MinValue && item.Expires < DateTime.UtcNow)
+                        {
+                            <a class="btn btn-mini btn-primary" href="/jobs/relist/@item.Slug" rel="tooltip" title="Click to Relist Expired Job" data-placement="right">
+                                <i class="icon-refresh icon-white"></i>
+                            </a>
                         }
                         else
                         {
-                            @: Yes
+                            <i class="icon-ok" rel="tooltip" title="Position was Filled" data-placement="right"></i>
                         }
                         </td>
                     </tr>

@@ -95,4 +95,34 @@
             <a class="btn btn-info" href="/acp/issues/">Go to Issues &raquo;</a>
         </div>
     </div>
+    <div class="span4">
+        <legend style="margin-bottom: 0">Listings</legend>
+        @{
+            var     listings_total = Model.Listings.All().ToList().Count;
+            var    listings_active = Model.Listings.All()
+                                          .Where(Model.Listings.Expires > DateTime.UtcNow)
+                                          .ToList().Count;
+            var listings_completed = ((Model.Listings.All()
+                                          .Where(Model.Listings.Expires == DateTime.MinValue)
+                                          .ToList().Count) / listings_total) * 100;
+            var listings_expired = ((Model.Listings.All()
+                                          .Where(Model.Listings.Expires > DateTime.MinValue &&
+                                                 Model.Listings.Expires < DateTime.UtcNow)
+                                          .ToList().Count) / listings_total) * 100;
+        }
+        <table class="table table-condensed" style="margin-bottom: 0">
+            <thead>
+                <tr> <th>Metric</th> <th style="width: 30%; text-align: right">Value</th> </tr>
+            </thead>
+            <tbody>
+                <tr> <td>Total</td>     <td style="text-align:right">@listings_total</td>     </tr>
+                <tr> <td>Active</td>    <td style="text-align:right">@listings_active</td>    </tr>
+                <tr> <td>Completed</td> <td style="text-align:right">@listings_completed%</td> </tr>
+                <tr> <td>Expired</td>   <td style="text-align:right">@listings_expired%</td>   </tr>
+            </tbody>
+        </table>
+        <div class="form-actions" style="text-align: center; margin-top: 0">
+            <a class="btn btn-info" href="/acp/listings/">Go to Listings &raquo;</a>
+        </div>
+    </div>
 </div>

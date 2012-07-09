@@ -17,6 +17,7 @@
             model.Activations = ActivationCode.DAL.ActivationCodes;
             model.Users = UserProfile.DAL.UserProfiles;
             model.Issues = FlaggedIssue.DAL.Issues;
+            model.Listings = JobListing.DAL.Listings;
 
             return View(model);
         }
