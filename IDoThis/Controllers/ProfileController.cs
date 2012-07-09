@@ -53,6 +53,16 @@
         }
 
         [Authorize]
+        [Route("profile/paid")]
+        public ActionResult Paid()
+        {
+            var thisUser = User.Profile();
+            thisUser.HasPaid = true;
+            UserProfile.DAL.UserProfiles.Update(thisUser);
+            return RedirectToAction("Index");
+        }
+
+        [Authorize]
         [HttpPost]
         public ActionResult Activate(ActivationCodeViewModel model)
         {

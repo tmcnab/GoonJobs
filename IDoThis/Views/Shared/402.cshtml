@@ -43,19 +43,33 @@
                 </form>
             </div>
             <div class="span6">
-                <form class="form-horizontal" action="/profile/activate" method="post">
-                    <legend><strong><small>I'd Like to Pay Now</small></strong></legend>
-                    <div class="control-group">
-                        <label class="control-label">Pay Now</label>
-                        <div class="controls">
-                            <input type="text" name="activation_code" maxlength="10" class="input-small" />
-                        </div>
-                    </div>
-                    <div class="form-actions">
-                        <button type="submit" class="btn">
-                             Pay Now &raquo;
-                        </button>
-                    </div>
+                <form class="form-horizontal" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+                    
+                        <legend><strong><small>Paid Upgrade</small></strong></legend>
+
+                            <div class="control-group">
+                                <label class="control-label">Level</label>
+                                <div class="controls">
+                                    <select name="os0" class="span12">
+                                        <option value="Basic">Basic $4.99 USD</option>
+                                        <option value="Supporter">Supporter $9.99 USD</option>
+                                        <option value="Backer">Backer $29.99 USD</option>
+                                    </select>
+                                </div>
+                            </div>
+               
+                            <img alt="" border="0" src="https://www.paypalobjects.com/en_AU/i/scr/pixel.gif" width="1" height="1" style="display:none" />
+                            <input type="hidden" name="cmd" value="_s-xclick" />
+                            <input type="hidden" name="hosted_button_id" value="2BWJX9GFQCXPC" />
+                            <input type="hidden" name="on0" value="Upgrade Level" />
+                            <input type="hidden" name="currency_code" value="USD" />
+                            <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynowCC_LG.gif" name="submit" style="display: none" />
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="icon-ok icon-white"></i> Pay Now
+                                </button>
+                            </div>
                 </form>
             </div>
         </div>
