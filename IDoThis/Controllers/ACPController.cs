@@ -5,13 +5,19 @@
     using System.Web.Mvc;
     using AttributeRouting.Web.Mvc;
     using IDoThis.Models;
+    using System.Dynamic;
 
     [Authorize(Users = "tristan@seditious-tech.com")]
     public class ACPController : Controller
     {
         public ActionResult Index()
         {
-            return View();
+            dynamic model = new ExpandoObject();
+
+            model.ActivationsUsed = ActivationCode.DAL.Activated().ToList().Count;
+            model.ActivationsFree = ActivationCode.DAL.NonActivated().Count;
+
+            return View(model);
         }
 
         [Route("acp/activations", HttpVerbs.Get)]

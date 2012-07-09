@@ -1,7 +1,23 @@
-﻿@{
+﻿@model dynamic
+@{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<legend>Administrator Control Panel</legend>
 
-<a href="/acp/activations">Activations</a>
+<div class="row">
+    <div class="span3">
+        <legend>Activations</legend>
+
+        <table>
+            <tbody>
+                <tr><td>Activated Accounts</td><td>@Model.ActivationsUsed</td></tr>
+                <tr><td>Activation Codes Left</td><td>@Model.ActivationsFree</td></tr>
+            </tbody>
+        </table>
+
+        <a class="btn btn-info" href="/acp/activations/">
+            Activations &raquo;
+        </a>
+    </div>
+</div>

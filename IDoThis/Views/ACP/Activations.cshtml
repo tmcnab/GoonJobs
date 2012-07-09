@@ -3,26 +3,39 @@
     ViewBag.Title = "Activations";
 }
 
-<form action="/acp/activations" method="post" style="text-align:center">
-    <div class="control-group">
-        <div class="controls">
-            <div class="input-prepend input-append">
-                <span class="add-on">Generate Codes</span><input name="n" value="1" type="number" class="input-mini" /><button type="submit" class="btn btn-primary">Submit</button>
-            </div>
-        </div>
+<div class="row">
+    <div class="span8">
+        <ul class="breadcrumb">
+            <li><a href="/acp">Control Panel</a> <span class="divider"><i class="icon-chevron-right">
+            </i></span></li>
+            <li><a href="/acp/activations">Activations</a></li>
+        </ul>
     </div>
-</form>
+    <div class="span4">
+        <form action="/acp/activations" method="post" class="form-inline pull-right" style="margin-top:3px">
+            <div class="control-group">
+                <div class="controls">
+                    <div class="input-prepend input-append">
+                        <span class="add-on">Generate Codes</span><input name="n" value="1" type="number"
+                        class="input-mini" /><button type="submit" class="btn btn-primary">
+                            Submit</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 
-<table class="table table-condensed">
+<table class="table table-condensed table-bordered">
     <thead>
         <tr>
-            <th style="width:15%">Code</th>
-            <th>User</th>
-            <th style="width:30%">Activated (UTC)</th>
+            <th style="width:10%; text-align:center">Code</th>
+            <th style="text-align:center">User</th>
+            <th style="width:26%; text-align:center">Activated (UTC)</th>
         </tr>
     </thead>
     <tbody>
-    @foreach (dynamic item in Model)
+    @foreach (dynamic item in Model.OrderByUsername())
     {
         <tr>
             <td><code>@item.Code</code></td>
