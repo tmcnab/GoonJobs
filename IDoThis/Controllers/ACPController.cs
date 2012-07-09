@@ -10,6 +10,8 @@
     [Authorize(Users = "tristan@seditious-tech.com")]
     public class ACPController : Controller
     {
+        #region /acp
+
         public ActionResult Index()
         {
             dynamic model = new ExpandoObject();
@@ -21,6 +23,8 @@
 
             return View(model);
         }
+
+        #endregion
 
         #region /acp/users
 
@@ -57,6 +61,32 @@
             }
 
             return RedirectToAction("Activations");
+        }
+
+        #endregion
+
+        #region /acp/issues
+        
+        [Route("acp/issues")]
+        public ActionResult Issues()
+        {
+            var model = FlaggedIssue.DAL.Issues;
+            return View(model);
+        }
+
+        #endregion
+
+        #region /acp/issues/close
+
+        [Route("acp/issues/close/{slugOrUserHash}", HttpVerbs.Get)]
+        public ActionResult CloseIssue(string slugOrUserHash)
+        {
+            dynamic item = FlaggedIssue.DAL.Issues.FindBySlugOrUserHash(slugOrUserHash);
+            item.IsOpen = false;
+            item.Reported = DateTime.UtcNow;
+            FlaggedIssue.DAL.Issues.Update(item);
+
+            return RedirectToAction("Issues");
         }
 
         #endregion

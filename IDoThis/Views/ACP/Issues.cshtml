@@ -1,0 +1,45 @@
+﻿@model dynamic
+@{
+    ViewBag.Title = "Control Panel > Issues";
+}
+
+<ul class="breadcrumb">
+    <li>
+        <a href="/acp" class="dotted">Control Panel</a>
+        <span class="divider"><i class="icon-chevron-right"></i></span>
+    </li>
+    <li>
+        <a href="/acp/issues" class="dotted"><strong>Issues (@Model.FindAllByIsOpen(true).ToList().Count)</strong></a>
+    </li>
+</ul>
+
+
+<table class="table table-condensed">
+    <thead>
+        <tr> <th>Reported</th> <th>Reporter</th> <th>Type</th> <th></th></tr>
+    </thead>
+    <tbody>
+    @foreach (dynamic issue in Model.FindAllByIsOpen(true).OrderByReported())
+    {
+        var timeSinceLodgement = DateTime.UtcNow - issue.Reported;
+        var timeFmtd = string.Format("{0}h {1}m", timeSinceLodgement.Hours, timeSinceLodgement.Minutes);
+                
+        <tr>
+            <td>@timeFmtd</td>
+            <td>@issue.Reporter</td>
+            <td>@if (issue.IsProfile) {
+                    <a class="dotted" href="/people/details/@issue.SlugOrUserHash">Person</a>
+                }
+                else
+                {
+                    <a class="dotted" href="/jobs/details/@issue.SlugOrUserHash">Listing</a>
+                }</td>
+            <td>
+                <a class="btn btn-mini" href="/acp/issues/close/@issue.SlugOrUserHash">
+                    <i class="icon-ok"></i>
+                </a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
