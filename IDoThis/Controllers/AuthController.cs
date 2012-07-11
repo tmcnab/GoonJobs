@@ -5,15 +5,17 @@
     using System.Web.Security;
     using IDoThis.Models;
     using NBrowserID;
+    using AttributeRouting.Web.Mvc;
 
     public class AuthController : Controller
     {
+        [Route("auth/", HttpVerbs.Get)]
         public ActionResult Index()
         {
             return View();
         }
 
-        [HttpPost]
+        [Route("auth/signin/", HttpVerbs.Post)]
         public ActionResult SignIn(string assertion)
         {
             var authentication = new BrowserIDAuthentication();
@@ -55,6 +57,7 @@
             return Json(null);
         }
 
+        [Route("auth/signout/", HttpVerbs.Get)] 
         public ActionResult SignOut()
         {
             FormsAuthentication.SignOut();

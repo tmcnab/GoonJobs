@@ -1,10 +1,10 @@
 ﻿namespace IDoThis.Controllers
 {
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.Dynamic;
     using System.Web.Mvc;
     using AttributeRouting.Web.Mvc;
-    using System.ComponentModel.DataAnnotations;
     using IDoThis.Models;
 
     public class PeopleController : Controller

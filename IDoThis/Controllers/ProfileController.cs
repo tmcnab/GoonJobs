@@ -1,14 +1,17 @@
 ﻿namespace IDoThis.Controllers
 {
+    using System.Collections.Generic;
     using System.Dynamic;
     using System.Web.Mvc;
-    using IDoThis.Models;
-    using System.Collections.Generic;
     using AttributeRouting.Web.Mvc;
+    using IDoThis.Models;
 
     public class ProfileController : Controller
     {
+        #region /profile/
+
         [Authorize]
+        [Route("profile/", HttpVerbs.Get)]
         public ActionResult Index()
         {
             var profile = User.Profile();
@@ -27,7 +30,7 @@
         }
 
         [Authorize]
-        [HttpPost]
+        [Route("profile/", HttpVerbs.Post)]
         public ActionResult Index(UserProfileUpdateModel model)
         {
             if (ModelState.IsValid)
@@ -40,10 +43,18 @@
             return RedirectToAction("Index");
         }
 
+        #endregion
+
+        #region /profile/banned
+
         public ActionResult Banned()
         {
             return View();
         }
+
+        #endregion
+
+        #region /profile/upgrade
 
         [Authorize]
         [Route("profile/upgrade", HttpVerbs.Get)]
@@ -51,6 +62,10 @@
         {
             return View("402");
         }
+
+        #endregion
+
+        #region /profile/paid
 
         [Authorize]
         [Route("profile/paid")]
@@ -62,8 +77,12 @@
             return RedirectToAction("Index");
         }
 
+        #endregion
+
+        #region /profile/activate/
+
         [Authorize]
-        [HttpPost]
+        [Route("profile/activate/", HttpVerbs.Post)]
         public ActionResult Activate(ActivationCodeViewModel model)
         {
             if (ModelState.IsValid)
@@ -87,5 +106,7 @@
                 return View("402");
             }
         }
+
+        #endregion
     }
 }

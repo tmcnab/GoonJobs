@@ -69,7 +69,7 @@
 
                 foreach (var keyword in query.ToLowerInvariant().Split(' ')) {
                     model = model.Where(db.Listings.TitleSearchable.Contains(keyword) || 
-                                        db.Listings.WhereSearchable.Contains(keyword)    ||
+                                        db.Listings.LocationSearchable.Contains(keyword) ||
                                         db.Listings.BlurbSearchable.Contains(keyword));
                 }
 

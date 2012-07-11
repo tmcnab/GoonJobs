@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-
-namespace IDoThis.Controllers
+﻿namespace IDoThis.Controllers
 {
+    using System.Web.Mvc;
+    using AttributeRouting.Web.Mvc;
+
     public class LegalController : Controller
     {
-        //
-        // GET: /Legal/
-
+        [Route("legal/", HttpVerbs.Get)]
         public ActionResult Index()
         {
             return View();
         }
-
     }
 }
