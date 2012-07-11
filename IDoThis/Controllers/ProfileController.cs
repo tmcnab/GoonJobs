@@ -25,6 +25,7 @@
             }
             model.Saved = savedList;
             model.Profile = profile;
+            model.Gravatar = Gravatar.Profile(User);
 
             return View(model);
         }
