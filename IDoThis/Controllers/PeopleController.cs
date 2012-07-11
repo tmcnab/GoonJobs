@@ -15,15 +15,23 @@
         [Route("people/list/{?pg}", HttpVerbs.Get)]
         public ActionResult Index(int pg = 0, string q = "")
         {
-            dynamic profiles = UserProfile.DAL.PublicProfiles
-                                          .OrderByLastLoginDescending();
-            
+            dynamic profiles;
+
+            if (!string.IsNullOrWhiteSpace(q)) {
+                profiles = UserProfile.DAL.Search(q);
+            }
+            else {
+                profiles = UserProfile.DAL.PublicProfiles.OrderByLastLoginDescending();
+            }
+
             ViewBag.TotalCount = profiles.ToList().Count;
             ViewBag.PageSize = 18;
             ViewBag.CurrentPage = pg;
+            profiles = profiles.Skip(pg * 18).Take(18);
+
 
             var model = new List<dynamic>();
-            foreach (var p in profiles.Skip(pg * 18).Take(18))
+            foreach (dynamic p in profiles)
             {
                 var result = Gravatar.Profile(p.UsernameHashed);
                 if(result != null && result.IsDefined("name") 

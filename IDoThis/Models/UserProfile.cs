@@ -15,6 +15,8 @@
 
         public string Description { get; set; }
 
+        public string DescriptionSearchable { get; set; }
+
         public bool HasPaid { get; set; }
 
         public bool IsBanned { get; set; }
@@ -36,6 +38,7 @@
         public UserProfile(string username)
         {
             this.Description = string.Empty;
+            this.DescriptionSearchable = string.Empty;
             this.HasPaid = false;
             this.IsBanned = false;
             this.IsHirable = false;
@@ -70,6 +73,19 @@
                     return UserProfiles.All().Where(db.UserProfiles.IsHirable == true && 
                                                     db.UserProfiles.IsBanned == false);
                 }
+            }
+
+            public static dynamic Search(string query)
+            {
+                var tokens = query.Split(' ', ',');
+                var model = PublicProfiles;
+
+                foreach (var keyword in query.ToLowerInvariant().Split(' '))
+                {
+                    model = model.Where(db.UserProfiles.DescriptionSearchable.Contains(keyword));
+                }
+
+                return model;
             }
         }
     }

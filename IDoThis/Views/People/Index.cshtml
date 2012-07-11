@@ -39,22 +39,26 @@
     </li>
 }
 </ul>
+<div style="text-align: center">
+    @(Html.Pager((int)ViewBag.PageSize, (int)ViewBag.CurrentPage, (int)ViewBag.TotalCount)
+          .Options(o => o.AddRouteValue("q", Request.QueryString["q"])
+                         .DisplayTemplate("BootstrapPagination")
+                  )
+    )
+</div>    
 }
 else
 {
 <div class="row">
     <div class="span6 offset3">
         <legend>No Results</legend>
-        <p>It doesn't seem like there are any people.</p>
+        @if (!string.IsNullOrWhiteSpace(Request.QueryString["q"]))
+        { 
+            <p>It doesn't seem like there are any members matching the term "@(Request.QueryString["q"])".</p>
+        }
+        else {
+            <p>It doesn't seem like there are any people.</p>
+        }
     </div>
 </div>
 }
-
-
-<div style="text-align:center">
-@(Html.Pager((int)ViewBag.PageSize, (int)ViewBag.CurrentPage, (int)ViewBag.TotalCount)
-          .Options(o => o.AddRouteValue("q", Request.QueryString["q"])
-                         .DisplayTemplate("BootstrapPagination")
-                  )
-)
-</div>

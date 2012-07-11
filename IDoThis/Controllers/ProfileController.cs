@@ -38,6 +38,9 @@
                 dynamic profile = User.Profile();
                 profile.IsHirable = model.IsHirable;
                 profile.Description = model.Pitch;
+                profile.DescriptionSearchable = model.Pitch.ToLowerInvariant().Replace(':', ' ')
+                                                                              .Replace('.', ' ')
+                                                                              .Replace(',', ' ');
                 UserProfile.DAL.UserProfiles.Update(profile);
             }
             return RedirectToAction("Index");
