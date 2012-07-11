@@ -10,5 +10,17 @@
         {
             return View();
         }
+
+        [Route("privacy/", HttpVerbs.Get)]
+        public ActionResult Privacy()
+        {
+            return View();
+        }
+
+        [Route("terms/", HttpVerbs.Get)]
+        public ActionResult Terms()
+        {
+            return View();
+        }
     }
 }
